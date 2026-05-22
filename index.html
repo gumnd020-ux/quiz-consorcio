@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descubra como conquistar seu patrimônio | Leonardo Lopes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0A0A0F;
+    --card: #13131A;
+    --gold: #C9A84C;
+    --gold-light: #D4B65E;
+    --gold-dark: #A8893A;
+    --text: #FFFFFF;
+    --text-muted: #8A8A96;
+    --text-soft: #B8B8C0;
+    --border: rgba(201, 168, 76, 0.15);
+    --border-hover: rgba(201, 168, 76, 0.4);
+    --glow: rgba(201, 168, 76, 0.08);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .quiz-container {
+    width: 100%;
+    max-width: 520px;
+    min-height: 100vh;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .header {
+    text-align: center;
+    padding: 16px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .header-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .header-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .progress-wrap { margin-bottom: 32px; }
+
+  .progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-text {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .screen {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    animation: fadeUp 0.5s ease;
+  }
+
+  .screen.active { display: flex; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .screen-tag {
+    font-size: 11px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .screen-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .screen-title .gold { color: var(--gold); }
+
+  .screen-desc {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .screen-desc strong { color: var(--text); font-weight: 600; }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .option-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    color: var(--text-soft);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .option-btn:hover {
+    border-color: var(--border-hover);
+    background: rgba(201, 168, 76, 0.05);
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+
+  .option-btn.selected {
+    border-color: var(--gold);
+    background: rgba(201, 168, 76, 0.08);
+    color: var(--gold);
+  }
+
+  .option-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(201, 168, 76, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .option-text { flex: 1; }
+
+  .option-label {
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .option-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    border: none;
+    border-radius: 12px;
+    color: #0A0A0F;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    margin-top: auto;
+    margin-bottom: 16px;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(201, 168, 76, 0.25);
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  .compare-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-table th:nth-child(2) { color: #ff6b6b; }
+  .compare-table th:nth-child(3) { color: var(--gold); }
+
+  .compare-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: var(--text-soft);
+  }
+
+  .compare-table td:nth-child(2) { color: #8a8a96; }
+  .compare-table td:nth-child(3) { color: var(--gold-light); font-weight: 600; }
+
+  .compare-table tr:last-child td {
+    border-bottom: none;
+    padding-top: 14px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .compare-table tr:last-child td:nth-child(2) { color: #ff6b6b; }
+  .compare-table tr:last-child td:nth-child(3) { color: var(--gold); }
+
+  .stat-row {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .stat-card {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.3;
+  }
+
+  .testimonial {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .testimonial::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    color: var(--gold);
+    opacity: 0.3;
+    position: absolute;
+    top: 8px;
+    left: 18px;
+    line-height: 1;
+  }
+
+  .testimonial-text {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.6;
+    font-style: italic;
+    padding-top: 16px;
+  }
+
+  .testimonial-author {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #0A0A0F;
+  }
+
+  .testimonial-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .testimonial-detail { font-size: 12px; color: var(--text-muted); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.08), rgba(201, 168, 76, 0.03));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+    text-align: center;
+  }
+
+  .highlight-box .big-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .highlight-box .big-label {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-top: 4px;
+  }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 500;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+
+  .form-input::placeholder { color: var(--text-muted); }
+  .form-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+  }
+
+  .disclaimer {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201, 168, 76, 0.1);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .savings-pill {
+    background: rgba(76, 201, 120, 0.1);
+    border: 1px solid rgba(76, 201, 120, 0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+    margin: 16px 0;
+  }
+
+  .savings-pill .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #4cc978;
+  }
+
+  .savings-pill .label {
+    font-size: 12px;
+    color: rgba(76, 201, 120, 0.7);
+    margin-top: 2px;
+  }
+
+  .result-list {
+    list-style: none;
+    margin: 20px 0;
+  }
+
+  .result-list li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--text-soft);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .result-list li:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(201, 168, 76, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 380px) {
+    .screen-title { font-size: 22px; }
+    .stat-number { font-size: 24px; }
+    .compare-table { font-size: 13px; }
+    .compare-table th, .compare-table td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <div class="header">
+    <div class="header-brand">Leonardo Lopes</div>
+    <div class="header-sub">Consultor de Patrimônio &bull; Ademicon</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 8%"></div></div>
+    <div class="progress-text" id="progressText">1 de 12</div>
+  </div>
+
+  <!-- TELA 1 - Hook emocional -->
+  <div class="screen active" id="screen1">
+    <div class="screen-tag">Pergunta rápida</div>
+    <div class="screen-title">Se você pudesse conquistar um patrimônio de R$300 mil pagando <span class="gold">menos da metade</span> do que pagaria num financiamento...</div>
+    <div class="screen-desc">Você faria?</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(1, 'Sim, quero saber como')">
+        <div class="option-icon">✨</div>
+        <div class="option-text">
+          <div class="option-label">Sim, quero saber como</div>
+          <div class="option-sub">Me mostra esse caminho</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(1, 'Parece bom demais')">
+        <div class="option-icon">🤔</div>
+        <div class="option-text">
+          <div class="option-label">Parece bom demais pra ser verdade</div>
+          <div class="option-sub">Quero ver os números</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 2 - Reframe -->
+  <div class="screen" id="screen2">
+    <div class="screen-tag">O que ninguém te contou</div>
+    <div class="screen-title">90% das pessoas <span class="gold">não conhecem</span> esse caminho</div>
+    <div class="screen-desc">A maioria acha que precisa dar <strong>entrada de 20-30%</strong> ou aceitar <strong>juros de 10% ao ano</strong> pra conquistar um imóvel.</div>
+    <div class="screen-desc">Mas existe a <strong>carta de crédito por consórcio</strong> — sem juros, sem entrada, com parcelas que cabem no bolso.</div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-number">0%</div>
+        <div class="stat-label">De juros</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">R$0</div>
+        <div class="stat-label">De entrada</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">240×</div>
+        <div class="stat-label">Parcelas fixas</div>
+      </div>
+    </div>
+    <button class="cta-btn" onclick="goTo(3)">Quero entender melhor</button>
+  </div>
+
+  <!-- TELA 3 - Objetivo -->
+  <div class="screen" id="screen3">
+    <div class="screen-tag">Seu objetivo</div>
+    <div class="screen-title">Qual é o seu <span class="gold">maior plano</span> hoje?</div>
+    <div class="screen-desc">Cada objetivo tem uma estratégia diferente. Me conta o seu:</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(3, 'Comprar meu primeiro imóvel')">
+        <div class="option-icon">🏠</div>
+        <div class="option-text">
+          <div class="option-label">Comprar meu primeiro imóvel</div>
+          <div class="option-sub">Sair do aluguel de vez</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(3, 'Trocar de imóvel ou investir')">
+        <div class="option-icon">📈</div>
+        <div class="option-text">
+          <div class="option-label">Trocar de imóvel ou investir</div>
+          <div class="option-sub">Aumentar meu patrimônio</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(3, 'Construir ou reformar')">
+        <div class="option-icon">🏗️</div>
+        <div class="option-text">
+          <div class="option-label">Construir ou reformar</div>
+          <div class="option-sub">Do meu jeito, no meu terreno</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(3, 'Adquirir um veículo')">
+        <div class="option-icon">🚗</div>
+        <div class="option-text">
+          <div class="option-label">Adquirir um veículo</div>
+          <div class="option-sub">Carro ou moto sem juros</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 4 - Comparação -->
+  <div class="screen" id="screen4">
+    <div class="screen-tag">Os números não mentem</div>
+    <div class="screen-title">Veja a diferença <span class="gold">real</span> num imóvel de R$300 mil</div>
+    <table class="compare-table">
+      <tr>
+        <th></th>
+        <th>Financiamento</th>
+        <th>Consórcio</th>
+      </tr>
+      <tr>
+        <td>Entrada</td>
+        <td>R$60.000</td>
+        <td>R$0</td>
+      </tr>
+      <tr>
+        <td>Juros totais</td>
+        <td>~R$250.000</td>
+        <td>R$0</td>
+      </tr>
+      <tr>
+        <td>Parcela</td>
+        <td>~R$2.800</td>
+        <td>~R$1.900</td>
+      </tr>
+      <tr>
+        <td>Total pago</td>
+        <td>R$550.000</td>
+        <td>R$340.000</td>
+      </tr>
+    </table>
+    <div class="savings-pill">
+      <div class="value">R$210.000 de economia</div>
+      <div class="label">no consórcio vs financiamento</div>
+    </div>
+    <button class="cta-btn" onclick="goTo(5)">Quero pagar menos</button>
+  </div>
+
+  <!-- TELA 5 - Valor da carta -->
+  <div class="screen" id="screen5">
+    <div class="screen-tag">Sua carta de crédito</div>
+    <div class="screen-title">Qual o <span class="gold">valor da carta</span> que você precisa?</div>
+    <div class="screen-desc">A carta de crédito é o valor total que você terá pra comprar, construir ou investir. Escolha a faixa:</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(5, 'R$80 mil a R$200 mil')">
+        <div class="option-icon">💎</div>
+        <div class="option-text">
+          <div class="option-label">R$80 mil a R$200 mil</div>
+          <div class="option-sub">Veículos, terrenos, apartamentos compactos</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(5, 'R$200 mil a R$500 mil')">
+        <div class="option-icon">💎</div>
+        <div class="option-text">
+          <div class="option-label">R$200 mil a R$500 mil</div>
+          <div class="option-sub">Apartamentos, construção, investimento</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(5, 'R$500 mil a R$750 mil')">
+        <div class="option-icon">💎</div>
+        <div class="option-text">
+          <div class="option-label">R$500 mil a R$750 mil</div>
+          <div class="option-sub">Casas, imóveis maiores</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(5, 'R$750 mil a R$1 milhão')">
+        <div class="option-icon">💎</div>
+        <div class="option-text">
+          <div class="option-label">R$750 mil a R$1 milhão</div>
+          <div class="option-sub">Alto padrão e investimentos robustos</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 6 - Ancoragem parcela -->
+  <div class="screen" id="screen6">
+    <div class="screen-tag">Pense nisso</div>
+    <div class="screen-title">Você paga <span class="gold">aluguel</span> todo mês? Esse dinheiro nunca volta.</div>
+    <div class="screen-desc">Com uma carta de crédito de R$200 mil, sua parcela começa em <strong>R$1.200/mês</strong> — valor próximo de muitos aluguéis.</div>
+    <div class="screen-desc">A diferença? No final do consórcio, o imóvel é <strong>seu</strong>. No aluguel, você não tem nada.</div>
+    <div class="highlight-box">
+      <div class="big-number">R$1.200</div>
+      <div class="big-label">por mês para conquistar R$200 mil em patrimônio</div>
+    </div>
+    <button class="cta-btn" onclick="goTo(7)">Faz sentido pra mim</button>
+  </div>
+
+  <!-- TELA 7 - Valor da parcela -->
+  <div class="screen" id="screen7">
+    <div class="screen-tag">Seu orçamento</div>
+    <div class="screen-title">Quanto você consegue investir <span class="gold">por mês</span> no seu patrimônio?</div>
+    <div class="screen-desc">Sem compromisso — é pra encontrar a carta que encaixa no seu bolso:</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(7, 'Até R$800/mês')">
+        <div class="option-icon">📊</div>
+        <div class="option-text">
+          <div class="option-label">Até R$800 por mês</div>
+          <div class="option-sub">Cartas de R$80 mil a R$150 mil</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(7, 'R$800 a R$2.000/mês')">
+        <div class="option-icon">📊</div>
+        <div class="option-text">
+          <div class="option-label">R$800 a R$2.000 por mês</div>
+          <div class="option-sub">Cartas de R$150 mil a R$400 mil</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(7, 'R$2.000 a R$4.000/mês')">
+        <div class="option-icon">📊</div>
+        <div class="option-text">
+          <div class="option-label">R$2.000 a R$4.000 por mês</div>
+          <div class="option-sub">Cartas de R$400 mil a R$750 mil</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(7, 'Acima de R$4.000/mês')">
+        <div class="option-icon">📊</div>
+        <div class="option-text">
+          <div class="option-label">Acima de R$4.000 por mês</div>
+          <div class="option-sub">Cartas de R$750 mil a R$1 milhão</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 8 - Objeções -->
+  <div class="screen" id="screen8">
+    <div class="screen-tag">Seja honesto</div>
+    <div class="screen-title">O que mais te <span class="gold">impede</span> hoje de conquistar seu patrimônio?</div>
+    <div class="screen-desc">Escolha o que mais pesa. Sem julgamento — quase todo mundo enfrenta isso:</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(8, 'Não tenho valor pra entrada')">
+        <div class="option-icon">🚫</div>
+        <div class="option-text">
+          <div class="option-label">Não tenho valor pra dar entrada</div>
+          <div class="option-sub">Consórcio não exige entrada</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(8, 'Juros altos me assustam')">
+        <div class="option-icon">📉</div>
+        <div class="option-text">
+          <div class="option-label">Juros altos me assustam</div>
+          <div class="option-sub">Consórcio tem zero juros</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(8, 'Acho que não consigo aprovação')">
+        <div class="option-icon">🏦</div>
+        <div class="option-text">
+          <div class="option-label">Acho que não consigo aprovação</div>
+          <div class="option-sub">Sem análise de crédito na adesão</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(8, 'Não sei por onde começar')">
+        <div class="option-icon">🧭</div>
+        <div class="option-text">
+          <div class="option-label">Não sei por onde começar</div>
+          <div class="option-sub">Vou te mostrar o caminho</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 9 - Prova social -->
+  <div class="screen" id="screen9">
+    <div class="screen-tag">História real</div>
+    <div class="screen-title">O João tinha as <span class="gold">mesmas dúvidas</span> que você</div>
+    <div class="testimonial">
+      <div class="testimonial-text">Eu achava que consórcio era furada. Comecei com R$1.400 por mês numa carta de R$250 mil. Em 14 meses fui contemplado e comprei meu apartamento à vista — negociei 15% de desconto porque paguei na hora.</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">JM</div>
+        <div>
+          <div class="testimonial-name">João M.</div>
+          <div class="testimonial-detail">Contemplado em 14 meses</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="big-number">R$320 mil</div>
+      <div class="big-label">valor do imóvel hoje — comprado por R$212 mil</div>
+    </div>
+    <button class="cta-btn" onclick="goTo(10)">Quero o mesmo resultado</button>
+  </div>
+
+  <!-- TELA 10 - Future pacing -->
+  <div class="screen" id="screen10">
+    <div class="screen-tag">Visualize</div>
+    <div class="screen-title">Imagina daqui a <span class="gold">12 meses</span>: carta contemplada, escolhendo seu imóvel.</div>
+    <div class="screen-desc">O que isso mudaria na sua vida?</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(10, 'Sairia do aluguel')">
+        <div class="option-icon">🏡</div>
+        <div class="option-text">
+          <div class="option-label">Sairia do aluguel de vez</div>
+          <div class="option-sub">Chega de pagar pra morar no que é dos outros</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(10, 'Primeiro investimento real')">
+        <div class="option-icon">🎯</div>
+        <div class="option-text">
+          <div class="option-label">Teria meu primeiro investimento real</div>
+          <div class="option-sub">Patrimônio que valoriza todo ano</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(10, 'Segurança pra família')">
+        <div class="option-icon">👨‍👩‍👧</div>
+        <div class="option-text">
+          <div class="option-label">Daria segurança pra minha família</div>
+          <div class="option-sub">Um lar de verdade, no meu nome</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(10, 'Realizaria um sonho antigo')">
+        <div class="option-icon">⭐</div>
+        <div class="option-text">
+          <div class="option-label">Realizaria um sonho antigo</div>
+          <div class="option-sub">Já esperei tempo demais</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 11 - Urgência + autoridade + timeline -->
+  <div class="screen" id="screen11">
+    <div class="screen-tag">Última pergunta</div>
+    <div class="screen-title">A Ademicon é a <span class="gold">maior do Brasil</span> — e as condições mudam todo mês</div>
+    <div class="screen-desc">Mais de <strong>R$90 bilhões em créditos</strong> entregues. Regulada pelo Banco Central. Quem começa agora garante a parcela mais baixa.</div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-number">30+</div>
+        <div class="stat-label">Anos no mercado</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">90 bi</div>
+        <div class="stat-label">Em créditos</div>
+      </div>
+    </div>
+    <div class="screen-desc" style="margin-top: 8px;">Quando você quer começar?</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(11, 'Agora')">
+        <div class="option-icon">🔥</div>
+        <div class="option-text">
+          <div class="option-label">Agora — quero falar com consultor</div>
+          <div class="option-sub">Prioridade no atendimento</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(11, 'Esse mês')">
+        <div class="option-icon">📅</div>
+        <div class="option-text">
+          <div class="option-label">Esse mês ainda</div>
+          <div class="option-sub">Garanto as condições atuais</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(11, 'Próximos 3 meses')">
+        <div class="option-icon">📆</div>
+        <div class="option-text">
+          <div class="option-label">Nos próximos 3 meses</div>
+          <div class="option-sub">Quero me planejar primeiro</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(11, 'Pesquisando')">
+        <div class="option-icon">🔍</div>
+        <div class="option-text">
+          <div class="option-label">Só estou pesquisando</div>
+          <div class="option-sub">Ainda quero entender melhor</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 12 - Resultado + Captura -->
+  <div class="screen" id="screen12">
+    <div class="badge">✓ Análise completa</div>
+    <div class="screen-title">Temos a <span class="gold">carta ideal</span> pra você</div>
+    <div class="screen-desc">Com base nas suas respostas, identifiquei a melhor estratégia pro seu perfil. Um consultor vai te apresentar as condições em <strong>15 minutinhos</strong> — sem compromisso.</div>
+
+    <ul class="result-list" id="resultList">
+      <li><span class="check-icon">✓</span> Sem entrada e sem juros</li>
+      <li><span class="check-icon">✓</span> <span id="resultGoal">Parcelas que cabem no bolso</span></li>
+      <li><span class="check-icon">✓</span> <span id="resultCard">Carta personalizada pro seu perfil</span></li>
+      <li><span class="check-icon">✓</span> Consultoria personalizada gratuita</li>
+    </ul>
+
+    <div class="form-group">
+      <label class="form-label">Seu nome</label>
+      <input type="text" class="form-input" id="inputName" placeholder="Como posso te chamar?" autocomplete="name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Seu WhatsApp</label>
+      <input type="tel" class="form-input" id="inputPhone" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="numeric">
+    </div>
+
+    <button class="cta-btn" id="submitBtn" onclick="submitQuiz()">Quero minha consultoria gratuita</button>
+    <div class="disclaimer">Seus dados estão seguros. Você receberá uma mensagem no WhatsApp em instantes.</div>
+  </div>
+
+  <!-- TELA 13 - Obrigado -->
+  <div class="screen" id="screen13">
+    <div style="text-align: center; padding-top: 40px;">
+      <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(201,168,76,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 32px;">✓</div>
+      <div class="screen-title" style="text-align: center;">Pronto, <span class="gold" id="thankName">amigo</span>!</div>
+      <div class="screen-desc" style="text-align: center;">Um consultor especializado vai te chamar no WhatsApp nos próximos minutos. Fique de olho nas suas mensagens!</div>
+      <div class="highlight-box">
+        <div class="big-number">15 min</div>
+        <div class="big-label">tempo máximo para você receber contato</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const answers = {};
+const totalScreens = 12;
+
+function goTo(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + n).classList.add('active');
+
+  if (n <= totalScreens) {
+    document.getElementById('progressFill').style.width = ((n / totalScreens) * 100) + '%';
+    document.getElementById('progressText').textContent = n + ' de ' + totalScreens;
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = 'Completo';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function answer(screen, value) {
+  answers['q' + screen] = value;
+
+  const btns = document.querySelectorAll('#screen' + screen + ' .option-btn');
+  btns.forEach(b => b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+
+  setTimeout(() => {
+    if (screen === 11) {
+      personalizeResult();
+    }
+    goTo(screen + 1);
+  }, 300);
+}
+
+function personalizeResult() {
+  const goal = answers.q3;
+  const el = document.getElementById('resultGoal');
+  if (goal === 'Comprar meu primeiro imóvel') el.textContent = 'Estratégia pra sair do aluguel';
+  else if (goal === 'Trocar de imóvel ou investir') el.textContent = 'Plano de investimento em patrimônio';
+  else if (goal === 'Construir ou reformar') el.textContent = 'Carta ideal pra sua obra';
+  else if (goal === 'Adquirir um veículo') el.textContent = 'Melhor condição pra seu veículo';
+
+  const card = answers.q5;
+  const cardEl = document.getElementById('resultCard');
+  if (card) cardEl.textContent = 'Carta de ' + card + ' com parcela sob medida';
+}
+
+function formatPhone(input) {
+  let v = input.value.replace(/\D/g, '');
+  if (v.length > 11) v = v.slice(0, 11);
+  if (v.length > 7) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+  else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+  input.value = v;
+}
+
+document.getElementById('inputPhone').addEventListener('input', function() { formatPhone(this); });
+
+async function submitQuiz() {
+  const name = document.getElementById('inputName').value.trim();
+  const phone = document.getElementById('inputPhone').value.trim();
+
+  if (!name) { document.getElementById('inputName').focus(); return; }
+  if (phone.replace(/\D/g, '').length < 10) { document.getElementById('inputPhone').focus(); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Enviando...';
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+
+  const payload = {
+    nome: name,
+    telefone: phone.replace(/\D/g, ''),
+    telefone_formatado: phone,
+    mensagem_agente: `Olá! Meu nome é ${name}. Fiz o quiz e quero uma consultoria sobre consórcio. Meu objetivo: ${answers.q3 || 'não informado'}. Valor da carta: ${answers.q5 || 'não informado'}. Parcela ideal: ${answers.q7 || 'não informado'}. Urgência: ${answers.q11 || 'não informado'}.`,
+    respostas: {
+      interesse_inicial: answers.q1 || '',
+      objetivo: answers.q3 || '',
+      valor_carta: answers.q5 || '',
+      valor_parcela: answers.q7 || '',
+      objecao: answers.q8 || '',
+      motivacao: answers.q10 || '',
+      urgencia: answers.q11 || ''
+    },
+    origem: 'quiz-consorcio',
+    data: new Date().toISOString()
+  };
+
+  try {
+    await fetch('https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-consorcio', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {}
+
+  document.getElementById('thankName').textContent = name.split(' ')[0];
+  goTo(13);
+}
+</script>
+
+</body>
+</html>

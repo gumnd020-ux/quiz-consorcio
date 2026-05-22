@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Consórcio - Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0A0A0F; color: #fff; min-height: 100vh; padding: 24px; }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .subtitle { color: #8A8A96; font-size: 14px; margin-bottom: 32px; }
+  .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+  .stat-card { background: #13131A; border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 20px; flex: 1; min-width: 150px; }
+  .stat-value { font-size: 32px; font-weight: 700; color: #C9A84C; }
+  .stat-label { font-size: 12px; color: #8A8A96; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .funnel { margin-bottom: 32px; }
+  .funnel-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+  .funnel-step { display: flex; align-items: center; margin-bottom: 8px; gap: 12px; }
+  .funnel-bar-wrap { flex: 1; background: #1a1a24; border-radius: 6px; height: 36px; position: relative; overflow: hidden; }
+  .funnel-bar { height: 100%; border-radius: 6px; transition: width 0.6s ease; display: flex; align-items: center; padding: 0 12px; }
+  .funnel-bar-text { font-size: 12px; font-weight: 600; white-space: nowrap; position: absolute; left: 12px; z-index: 1; }
+  .funnel-pct { font-size: 14px; font-weight: 700; width: 52px; text-align: right; color: #C9A84C; }
+  .funnel-num { font-size: 12px; color: #8A8A96; width: 40px; text-align: right; }
+  .funnel-label { font-size: 13px; width: 160px; min-width: 160px; }
+  .drop { font-size: 11px; color: #ff6b6b; text-align: center; margin: 2px 0 6px; padding-left: 172px; }
+  .legend { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8A8A96; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .no-data { text-align: center; padding: 60px; color: #8A8A96; }
+  .refresh-btn { background: #C9A84C; color: #0A0A0F; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+  .refresh-btn:hover { background: #D4B65E; }
+  .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .time-info { font-size: 12px; color: #8A8A96; }
+  table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; color: #8A8A96; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+  td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .completed-row td { color: #4ade80; }
+  .abandon-row td { color: #ff6b6b; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header-row">
+    <div>
+      <h1>Quiz Consórcio</h1>
+      <div class="subtitle">Dashboard de conversão</div>
+    </div>
+    <button class="refresh-btn" onclick="location.reload()">Atualizar</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="totalSessions">-</div>
+      <div class="stat-label">Sessões</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="totalComplete">-</div>
+      <div class="stat-label">Completos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="conversionRate">-</div>
+      <div class="stat-label">Taxa conversão</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="avgDrop">-</div>
+      <div class="stat-label">Tela média saída</div>
+    </div>
+  </div>
+
+  <div class="funnel">
+    <div class="funnel-title">Funil por etapa</div>
+    <div id="funnelChart"></div>
+  </div>
+
+  <div class="funnel-title">Últimos eventos</div>
+  <table>
+    <thead><tr><th>Hora</th><th>Sessão</th><th>Evento</th><th>Tela</th></tr></thead>
+    <tbody id="eventsTable"></tbody>
+  </table>
+</div>
+
+<script>
+const STORAGE_KEY = 'quiz_funnel_data';
+const screenNames = {
+  1: 'Interesse inicial',
+  2: 'Educação consórcio',
+  3: 'Objetivo',
+  4: 'Comparação financiam.',
+  5: 'Valor da carta',
+  6: 'Aluguel',
+  7: 'Valor parcela',
+  8: 'Objeção',
+  9: 'Prova social',
+  10: 'Motivação',
+  11: 'Urgência',
+  12: 'Dados contato',
+  13: 'Enviou (completo)'
+};
+
+const colors = [
+  '#4ade80', '#3ecf72', '#38c466', '#2eb85a',
+  '#C9A84C', '#c4a044', '#be983c', '#b89034',
+  '#ff8c42', '#ff7b3a', '#ff6b6b', '#ff5252', '#22c55e'
+];
+
+function loadData() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  } catch(e) { return []; }
+}
+
+function render() {
+  const events = loadData();
+
+  if (events.length === 0) {
+    document.getElementById('funnelChart').innerHTML = '<div class="no-data">Nenhum dado ainda.<br>Acesse o quiz para gerar dados.</div>';
+    return;
+  }
+
+  // Agrupar por sessão
+  const sessions = {};
+  events.forEach(e => {
+    if (!sessions[e.sid]) sessions[e.sid] = { steps: [], complete: false };
+    if (e.type === 'step') sessions[e.sid].steps.push(e.step);
+    if (e.type === 'complete') sessions[e.sid].complete = true;
+  });
+
+  const totalSessions = Object.keys(sessions).length;
+  const completeSessions = Object.values(sessions).filter(s => s.complete).length;
+
+  // Contar quantas sessões chegaram em cada tela
+  const stepCounts = {};
+  for (let i = 1; i <= 13; i++) stepCounts[i] = 0;
+
+  Object.values(sessions).forEach(s => {
+    const maxStep = Math.max(...s.steps, 0);
+    for (let i = 1; i <= maxStep; i++) {
+      stepCounts[i]++;
+    }
+    if (s.complete) stepCounts[13]++;
+  });
+
+  // Stats
+  document.getElementById('totalSessions').textContent = totalSessions;
+  document.getElementById('totalComplete').textContent = completeSessions;
+  document.getElementById('conversionRate').textContent = totalSessions > 0 ? Math.round((completeSessions / totalSessions) * 100) + '%' : '0%';
+
+  // Tela média de saída
+  const abandonSessions = Object.values(sessions).filter(s => !s.complete);
+  if (abandonSessions.length > 0) {
+    const avgDrop = abandonSessions.reduce((sum, s) => sum + Math.max(...s.steps), 0) / abandonSessions.length;
+    document.getElementById('avgDrop').textContent = Math.round(avgDrop * 10) / 10;
+  } else {
+    document.getElementById('avgDrop').textContent = '-';
+  }
+
+  // Funil
+  const funnelHtml = [];
+  for (let i = 1; i <= 13; i++) {
+    if (i === 13 && stepCounts[13] === 0 && stepCounts[12] === 0) continue;
+    const count = stepCounts[i];
+    const pct = totalSessions > 0 ? Math.round((count / totalSessions) * 100) : 0;
+    const barColor = colors[i - 1] || '#C9A84C';
+
+    funnelHtml.push(`
+      <div class="funnel-step">
+        <div class="funnel-label">${i}. ${screenNames[i] || 'Tela ' + i}</div>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width: ${Math.max(pct, 2)}%; background: ${barColor}20; border: 1px solid ${barColor}50;">
+          </div>
+          <span class="funnel-bar-text">${count} sessões</span>
+        </div>
+        <div class="funnel-pct">${pct}%</div>
+      </div>
+    `);
+
+    if (i < 13 && stepCounts[i] > 0 && stepCounts[i + 1] < stepCounts[i]) {
+      const drop = stepCounts[i] - stepCounts[i + 1];
+      const dropPct = Math.round((drop / stepCounts[i]) * 100);
+      if (dropPct > 0) {
+        funnelHtml.push(`<div class="drop">▼ ${drop} saíram (${dropPct}%)</div>`);
+      }
+    }
+  }
+
+  document.getElementById('funnelChart').innerHTML = funnelHtml.join('');
+
+  // Tabela de eventos recentes
+  const recent = events.slice(-30).reverse();
+  const tableHtml = recent.map(e => {
+    const time = new Date(e.ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const date = new Date(e.ts).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    const cls = e.type === 'complete' ? 'completed-row' : e.type === 'abandon' ? 'abandon-row' : '';
+    const label = e.type === 'complete' ? '✅ Completo' : e.type === 'abandon' ? '❌ Abandonou' : `Tela ${e.step}`;
+    const name = e.type === 'step' ? screenNames[e.step] || '' : e.type === 'complete' ? 'Lead convertido' : `Parou na tela ${e.step}`;
+    return `<tr class="${cls}"><td>${date} ${time}</td><td>${(e.sid || '').slice(0,6)}</td><td>${label}</td><td>${name}</td></tr>`;
+  }).join('');
+  document.getElementById('eventsTable').innerHTML = tableHtml || '<tr><td colspan="4" style="color:#8A8A96;text-align:center;padding:20px;">Nenhum evento</td></tr>';
+}
+
+// Escutar eventos do quiz (via BroadcastChannel ou storage event)
+window.addEventListener('storage', function(e) {
+  if (e.key === STORAGE_KEY) render();
+});
+
+render();
+</script>
+</body>
+</html>

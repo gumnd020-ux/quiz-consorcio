@@ -889,6 +889,18 @@
 <script>
 const answers = {};
 const totalScreens = 12;
+const STORAGE_KEY = 'quiz_funnel_data';
+const sessionId = Math.random().toString(36).slice(2, 10);
+
+function trackEvent(type, step) {
+  try {
+    const events = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    events.push({ ts: Date.now(), sid: sessionId, type, step: step || 0 });
+    // Manter só últimos 5000 eventos
+    if (events.length > 5000) events.splice(0, events.length - 5000);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  } catch(e) {}
+}
 
 const screenNames = {
   1: 'interesse_inicial',
@@ -917,6 +929,9 @@ function goTo(n) {
     document.getElementById('progressFill').style.width = '100%';
     document.getElementById('progressText').textContent = 'Completo';
   }
+
+  // Salvar no localStorage pro dashboard
+  trackEvent('step', n);
 
   // GA4: evento de avanço de tela
   if (typeof gtag === 'function') {
@@ -1006,6 +1021,9 @@ async function submitQuiz() {
     });
   } catch (e) {}
 
+  // Dashboard: lead converteu
+  trackEvent('complete', 13);
+
   // GA4: lead converteu
   if (typeof gtag === 'function') {
     gtag('event', 'quiz_complete', {
@@ -1026,6 +1044,7 @@ window.addEventListener('beforeunload', function() {
   if (currentScreen && typeof gtag === 'function') {
     const screenId = parseInt(currentScreen.id.replace('screen', ''));
     if (screenId < 13) {
+      trackEvent('abandon', screenId);
       gtag('event', 'quiz_abandon', {
         last_step: screenId,
         last_step_name: screenNames[screenId] || 'tela_' + screenId,

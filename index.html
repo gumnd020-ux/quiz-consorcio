@@ -896,9 +896,17 @@ function trackEvent(type, step) {
   try {
     const events = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     events.push({ ts: Date.now(), sid: sessionId, type, step: step || 0 });
-    // Manter só últimos 5000 eventos
     if (events.length > 5000) events.splice(0, events.length - 5000);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  } catch(e) {}
+
+  // Enviar pro dashboard n8n (Redis)
+  try {
+    fetch('https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-stats', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, step: step || 0, sid: sessionId, ts: Date.now() })
+    }).catch(() => {});
   } catch(e) {}
 }
 

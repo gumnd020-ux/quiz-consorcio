@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Descubra como conquistar seu patrimônio | Leonardo Lopes</title>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WM3S7PWSCM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WM3S7PWSCM');
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
@@ -882,6 +890,22 @@
 const answers = {};
 const totalScreens = 12;
 
+const screenNames = {
+  1: 'interesse_inicial',
+  2: 'educacao_consorcio',
+  3: 'objetivo',
+  4: 'comparacao_financiamento',
+  5: 'valor_carta',
+  6: 'aluguel',
+  7: 'valor_parcela',
+  8: 'objecao',
+  9: 'prova_social',
+  10: 'motivacao',
+  11: 'urgencia',
+  12: 'dados_contato',
+  13: 'obrigado'
+};
+
 function goTo(n) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen' + n).classList.add('active');
@@ -892,6 +916,15 @@ function goTo(n) {
   } else {
     document.getElementById('progressFill').style.width = '100%';
     document.getElementById('progressText').textContent = 'Completo';
+  }
+
+  // GA4: evento de avanço de tela
+  if (typeof gtag === 'function') {
+    gtag('event', 'quiz_step', {
+      step_number: n,
+      step_name: screenNames[n] || 'tela_' + n,
+      progress_percent: Math.round((n / totalScreens) * 100)
+    });
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -973,9 +1006,34 @@ async function submitQuiz() {
     });
   } catch (e) {}
 
+  // GA4: lead converteu
+  if (typeof gtag === 'function') {
+    gtag('event', 'quiz_complete', {
+      objetivo: answers.q3 || '',
+      valor_carta: answers.q5 || '',
+      valor_parcela: answers.q7 || '',
+      urgencia: answers.q11 || ''
+    });
+  }
+
   document.getElementById('thankName').textContent = name.split(' ')[0];
   goTo(13);
 }
+
+// GA4: detectar abandono ao sair da página
+window.addEventListener('beforeunload', function() {
+  const currentScreen = document.querySelector('.screen.active');
+  if (currentScreen && typeof gtag === 'function') {
+    const screenId = parseInt(currentScreen.id.replace('screen', ''));
+    if (screenId < 13) {
+      gtag('event', 'quiz_abandon', {
+        last_step: screenId,
+        last_step_name: screenNames[screenId] || 'tela_' + screenId,
+        progress_percent: Math.round((screenId / totalScreens) * 100)
+      });
+    }
+  }
+});
 </script>
 
 </body>

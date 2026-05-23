@@ -47,6 +47,15 @@
   .worst-title { font-size: 13px; font-weight: 600; color: #ff6b6b; margin-bottom: 8px; }
   .worst-text { font-size: 12px; color: #ccc; line-height: 1.6; }
   .worst-highlight { color: #ff6b6b; font-weight: 700; }
+
+  .leads-section { margin-top: 40px; }
+  .leads-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .leads-table th { text-align: left; font-size: 11px; color: #8A8A96; text-transform: uppercase; letter-spacing: 1px; padding: 10px 12px; border-bottom: 1px solid #222; }
+  .leads-table td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid #1a1a24; color: #ccc; }
+  .leads-table tr:hover td { background: #13131A; }
+  .status-ok { color: #4ade80; font-weight: 600; }
+  .status-err { color: #ff6b6b; font-weight: 600; }
+  .leads-count { font-size: 12px; color: #555; margin-left: 8px; font-weight: 400; }
 </style>
 </head>
 <body>
@@ -79,6 +88,11 @@
   <div id="funnelChart"><div class="loading">Carregando...</div></div>
 
   <div id="worstDrop"></div>
+
+  <div class="leads-section">
+    <div class="section-title">Leads recebidos <span class="leads-count" id="leadsCount"></span></div>
+    <div id="leadsTable"></div>
+  </div>
 </div>
 
 <script>
@@ -184,6 +198,27 @@ async function loadDashboard() {
       `;
     } else {
       worstBox.innerHTML = '';
+    }
+
+    // Tabela de leads
+    const leadsDiv = document.getElementById('leadsTable');
+    const leadsCountEl = document.getElementById('leadsCount');
+    const leads = data.leads || [];
+
+    if (leads.length === 0) {
+      leadsDiv.innerHTML = '<div class="no-data">Nenhum lead ainda.</div>';
+      leadsCountEl.textContent = '';
+    } else {
+      leadsCountEl.textContent = `(${leads.length})`;
+      const reversed = [...leads].reverse();
+      let thtml = '<table class="leads-table"><thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>Status</th></tr></thead><tbody>';
+      for (const l of reversed) {
+        const statusClass = l.status === 'enviado' ? 'status-ok' : 'status-err';
+        const statusIcon = l.status === 'enviado' ? '✅' : '❌';
+        thtml += `<tr><td>${l.nome}</td><td>${l.telefone}</td><td>${l.data}</td><td class="${statusClass}">${statusIcon} ${l.status}</td></tr>`;
+      }
+      thtml += '</tbody></table>';
+      leadsDiv.innerHTML = thtml;
     }
 
   } catch(e) {

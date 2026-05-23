@@ -14,6 +14,8 @@
   .subtitle { color: #8A8A96; font-size: 13px; margin-top: 4px; }
   .refresh-btn { background: #C9A84C; color: #0A0A0F; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
   .refresh-btn:hover { background: #D4B65E; }
+  .reset-btn { background: transparent; color: #ff6b6b; border: 1px solid rgba(255,75,75,0.3); padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px; margin-left: 8px; }
+  .reset-btn:hover { background: rgba(255,75,75,0.1); }
 
   .cards { display: flex; gap: 12px; margin-bottom: 36px; }
   .card { background: #13131A; border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 18px; flex: 1; text-align: center; }
@@ -55,6 +57,7 @@
       <div class="subtitle">Dashboard de conversao</div>
     </div>
     <button class="refresh-btn" onclick="loadDashboard()">Atualizar</button>
+    <button class="reset-btn" onclick="resetData()">Zerar dados</button>
   </div>
 
   <div class="cards">
@@ -185,6 +188,20 @@ async function loadDashboard() {
 
   } catch(e) {
     chart.innerHTML = '<div class="error-msg">Erro ao carregar dados.<br>Verifique se os workflows estao ativos no n8n.</div>';
+  }
+}
+
+async function resetData() {
+  if (!confirm('Zerar todos os dados do funil?')) return;
+  try {
+    await fetch('https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-stats', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'reset', step: 0 })
+    });
+    setTimeout(loadDashboard, 2000);
+  } catch(e) {
+    alert('Erro ao zerar dados');
   }
 }
 

@@ -8,27 +8,43 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', sans-serif; background: #0A0A0F; color: #fff; min-height: 100vh; padding: 24px; }
-  .container { max-width: 800px; margin: 0 auto; }
-  h1 { font-size: 24px; font-weight: 700; }
-  .subtitle { color: #8A8A96; font-size: 14px; margin-bottom: 32px; }
-  .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .container { max-width: 700px; margin: 0 auto; }
+  .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+  h1 { font-size: 22px; font-weight: 700; }
+  .subtitle { color: #8A8A96; font-size: 13px; margin-top: 4px; }
   .refresh-btn { background: #C9A84C; color: #0A0A0F; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
   .refresh-btn:hover { background: #D4B65E; }
-  .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
-  .stat-card { background: #13131A; border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 20px; flex: 1; min-width: 150px; }
-  .stat-value { font-size: 32px; font-weight: 700; color: #C9A84C; }
-  .stat-label { font-size: 12px; color: #8A8A96; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
-  .funnel-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
-  .funnel-step { display: flex; align-items: center; margin-bottom: 8px; gap: 12px; }
-  .funnel-label { font-size: 13px; width: 180px; min-width: 180px; }
-  .funnel-bar-wrap { flex: 1; background: #1a1a24; border-radius: 6px; height: 36px; position: relative; overflow: hidden; }
-  .funnel-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 12px; transition: width 0.6s ease; }
-  .funnel-bar-text { font-size: 12px; font-weight: 600; white-space: nowrap; position: absolute; left: 12px; z-index: 1; }
-  .funnel-pct { font-size: 14px; font-weight: 700; width: 52px; text-align: right; color: #C9A84C; }
-  .drop { font-size: 11px; color: #ff6b6b; text-align: center; margin: 2px 0 6px; padding-left: 192px; }
-  .no-data { text-align: center; padding: 60px; color: #8A8A96; }
-  .error-msg { text-align: center; padding: 40px; color: #ff6b6b; font-size: 14px; }
-  .loading { text-align: center; padding: 60px; color: #8A8A96; }
+
+  .cards { display: flex; gap: 12px; margin-bottom: 36px; }
+  .card { background: #13131A; border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 18px; flex: 1; text-align: center; }
+  .card-value { font-size: 28px; font-weight: 700; color: #C9A84C; }
+  .card-label { font-size: 11px; color: #8A8A96; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .section-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: #D4B65E; }
+
+  .funnel-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .funnel-num { font-size: 11px; color: #555; width: 20px; text-align: right; }
+  .funnel-name { font-size: 12px; width: 140px; min-width: 140px; color: #ccc; }
+  .funnel-bar-bg { flex: 1; background: #1a1a24; border-radius: 4px; height: 28px; position: relative; overflow: hidden; }
+  .funnel-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; position: relative; }
+  .funnel-bar-count { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 600; color: #fff; }
+  .funnel-pct { font-size: 13px; font-weight: 700; width: 44px; text-align: right; }
+
+  .drop-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; padding: 2px 0; }
+  .drop-spacer { width: 170px; min-width: 170px; }
+  .drop-line { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .drop-arrow { color: #ff4d4d; font-size: 10px; }
+  .drop-text { font-size: 10px; color: #ff6b6b; font-weight: 500; }
+  .drop-text-green { font-size: 10px; color: #4ade80; font-weight: 500; }
+
+  .no-data { text-align: center; padding: 60px; color: #555; font-size: 14px; }
+  .loading { text-align: center; padding: 60px; color: #555; }
+  .error-msg { text-align: center; padding: 40px; color: #ff6b6b; font-size: 13px; }
+
+  .worst-box { background: #1a0a0a; border: 1px solid rgba(255,75,75,0.2); border-radius: 10px; padding: 16px; margin-top: 28px; }
+  .worst-title { font-size: 13px; font-weight: 600; color: #ff6b6b; margin-bottom: 8px; }
+  .worst-text { font-size: 12px; color: #ccc; line-height: 1.6; }
+  .worst-highlight { color: #ff6b6b; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -41,29 +57,31 @@
     <button class="refresh-btn" onclick="loadDashboard()">Atualizar</button>
   </div>
 
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-value" id="totalSessions">-</div>
-      <div class="stat-label">Sessoes</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-value" id="totalSessions">-</div>
+      <div class="card-label">Sessoes</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value" id="totalComplete">-</div>
-      <div class="stat-label">Completos</div>
+    <div class="card">
+      <div class="card-value" id="totalComplete">-</div>
+      <div class="card-label">Completos</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value" id="conversionRate">-</div>
-      <div class="stat-label">Taxa conversao</div>
+    <div class="card">
+      <div class="card-value" id="conversionRate">-</div>
+      <div class="card-label">Conversao</div>
     </div>
   </div>
 
-  <div class="funnel-title">Funil por etapa</div>
+  <div class="section-title">Funil por etapa</div>
   <div id="funnelChart"><div class="loading">Carregando...</div></div>
+
+  <div id="worstDrop"></div>
 </div>
 
 <script>
 const API = 'https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-dashboard';
 
-const colors = [
+const barColors = [
   '#4ade80', '#3ecf72', '#38c466', '#2eb85a',
   '#C9A84C', '#c4a044', '#be983c', '#b89034',
   '#ff8c42', '#ff7b3a', '#ff6b6b', '#ff5252', '#22c55e'
@@ -77,46 +95,96 @@ async function loadDashboard() {
     const res = await fetch(API);
     const data = await res.json();
 
-    document.getElementById('totalSessions').textContent = data.total_sessions || 0;
-    document.getElementById('totalComplete').textContent = data.total_complete || 0;
-    document.getElementById('conversionRate').textContent = (data.conversion_rate || 0) + '%';
+    const total = data.total_sessions || 0;
+    const complete = data.total_complete || 0;
+    const rate = total > 0 ? Math.round((complete / total) * 100) : 0;
 
-    if (!data.funnel || data.funnel.length === 0 || data.total_sessions === 0) {
+    document.getElementById('totalSessions').textContent = total;
+    document.getElementById('totalComplete').textContent = complete;
+    document.getElementById('conversionRate').textContent = rate + '%';
+
+    if (!data.funnel || data.funnel.length === 0 || total === 0) {
       chart.innerHTML = '<div class="no-data">Nenhum dado ainda.<br>Acesse o quiz para gerar dados.</div>';
       return;
     }
 
-    let html = [];
     const funnel = data.funnel;
+    const maxCount = Math.max(...funnel.map(f => f.count), 1);
+    let html = [];
+    let worstDrop = { from: '', to: '', pct: 0, idx: 0 };
 
     for (let i = 0; i < funnel.length; i++) {
       const f = funnel[i];
-      const barColor = colors[i] || '#C9A84C';
+      const pct = Math.min(100, Math.round((f.count / maxCount) * 100));
+      const barColor = barColors[i] || '#C9A84C';
+      const pctOfTotal = total > 0 ? Math.min(100, Math.round((f.count / total) * 100)) : 0;
 
       html.push(`
-        <div class="funnel-step">
-          <div class="funnel-label">${f.step}. ${f.name}</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width: ${Math.max(f.pct, 2)}%; background: ${barColor}20; border: 1px solid ${barColor}50;"></div>
-            <span class="funnel-bar-text">${f.count} sessoes</span>
+        <div class="funnel-row">
+          <div class="funnel-num">${f.step}</div>
+          <div class="funnel-name">${f.name}</div>
+          <div class="funnel-bar-bg">
+            <div class="funnel-bar-fill" style="width:${Math.max(pct, 3)}%;background:${barColor}30;border-left:3px solid ${barColor};">
+            </div>
+            <span class="funnel-bar-count">${f.count}</span>
           </div>
-          <div class="funnel-pct">${f.pct}%</div>
+          <div class="funnel-pct" style="color:${barColor}">${pctOfTotal}%</div>
         </div>
       `);
 
-      if (i < funnel.length - 1 && f.count > 0 && funnel[i+1].count < f.count) {
-        const drop = f.count - funnel[i+1].count;
+      if (i < funnel.length - 1 && f.count > 0) {
+        const next = funnel[i + 1];
+        const drop = f.count - next.count;
         const dropPct = Math.round((drop / f.count) * 100);
-        if (dropPct > 0) {
-          html.push(`<div class="drop">&#9660; ${drop} sairam (${dropPct}%)</div>`);
+
+        if (drop > 0) {
+          html.push(`
+            <div class="drop-row">
+              <div class="drop-spacer"></div>
+              <div class="drop-line">
+                <span class="drop-arrow">▼</span>
+                <span class="drop-text">-${drop} saiu (${dropPct}% perdeu)</span>
+              </div>
+            </div>
+          `);
+
+          if (dropPct > worstDrop.pct) {
+            worstDrop = { from: f.name, to: next.name, pct: dropPct, count: drop, idx: f.step };
+          }
+        } else {
+          html.push(`
+            <div class="drop-row">
+              <div class="drop-spacer"></div>
+              <div class="drop-line">
+                <span class="drop-text-green">↓ 0 saiu</span>
+              </div>
+            </div>
+          `);
         }
       }
     }
 
     chart.innerHTML = html.join('');
 
+    // Pior ponto de saida
+    const worstBox = document.getElementById('worstDrop');
+    if (worstDrop.pct > 0) {
+      worstBox.innerHTML = `
+        <div class="worst-box">
+          <div class="worst-title">⚠ Maior ponto de saida</div>
+          <div class="worst-text">
+            Entre <strong>${worstDrop.from}</strong> e <strong>${worstDrop.to}</strong>:
+            <span class="worst-highlight">${worstDrop.count} leads sairam (${worstDrop.pct}%)</span><br>
+            Considere melhorar a tela ${worstDrop.idx} para reduzir abandono.
+          </div>
+        </div>
+      `;
+    } else {
+      worstBox.innerHTML = '';
+    }
+
   } catch(e) {
-    chart.innerHTML = '<div class="error-msg">Erro ao carregar dados.<br>Verifique se o workflow "Quiz Dashboard - Funil" esta ativo no n8n.</div>';
+    chart.innerHTML = '<div class="error-msg">Erro ao carregar dados.<br>Verifique se os workflows estao ativos no n8n.</div>';
   }
 }
 

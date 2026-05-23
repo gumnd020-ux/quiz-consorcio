@@ -12,10 +12,17 @@
   .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
   h1 { font-size: 22px; font-weight: 700; }
   .subtitle { color: #8A8A96; font-size: 13px; margin-top: 4px; }
+  .btn-group { display: flex; gap: 8px; }
   .refresh-btn { background: #C9A84C; color: #0A0A0F; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
   .refresh-btn:hover { background: #D4B65E; }
-  .reset-btn { background: transparent; color: #ff6b6b; border: 1px solid rgba(255,75,75,0.3); padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px; margin-left: 8px; }
+  .reset-btn { background: transparent; color: #ff6b6b; border: 1px solid rgba(255,75,75,0.3); padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px; }
   .reset-btn:hover { background: rgba(255,75,75,0.1); }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: #13131A; border-radius: 10px; padding: 4px; }
+  .tab { flex: 1; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: #8A8A96; transition: all 0.2s; }
+  .tab:hover { color: #ccc; }
+  .tab.active { background: #C9A84C; color: #0A0A0F; }
+  .tab .tab-icon { font-size: 16px; display: block; margin-bottom: 2px; }
 
   .cards { display: flex; gap: 12px; margin-bottom: 36px; }
   .card { background: #13131A; border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 18px; flex: 1; text-align: center; }
@@ -56,6 +63,10 @@
   .status-ok { color: #4ade80; font-weight: 600; }
   .status-err { color: #ff6b6b; font-weight: 600; }
   .leads-count { font-size: 12px; color: #555; margin-left: 8px; font-weight: 400; }
+  .path-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
+  .path-casa { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .path-carro { background: rgba(96,165,250,0.15); color: #60a5fa; }
+  .path-investimento { background: rgba(201,168,76,0.15); color: #C9A84C; }
 </style>
 </head>
 <body>
@@ -65,8 +76,16 @@
       <h1>Quiz Consorcio</h1>
       <div class="subtitle">Dashboard de conversao</div>
     </div>
-    <button class="refresh-btn" onclick="loadDashboard()">Atualizar</button>
-    <button class="reset-btn" onclick="resetData()">Zerar dados</button>
+    <div class="btn-group">
+      <button class="refresh-btn" onclick="loadDashboard()">Atualizar</button>
+      <button class="reset-btn" onclick="resetData()">Zerar dados</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('casa')" id="tab-casa"><span class="tab-icon">🏠</span>Casa</div>
+    <div class="tab" onclick="switchTab('carro')" id="tab-carro"><span class="tab-icon">🚗</span>Carro</div>
+    <div class="tab" onclick="switchTab('investimento')" id="tab-investimento"><span class="tab-icon">📈</span>Investimento</div>
   </div>
 
   <div class="cards">
@@ -97,12 +116,21 @@
 
 <script>
 const API = 'https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-dashboard';
+let dashboardData = null;
+let currentTab = 'casa';
 
 const barColors = [
   '#4ade80', '#3ecf72', '#38c466', '#2eb85a',
   '#C9A84C', '#c4a044', '#be983c', '#b89034',
   '#ff8c42', '#ff7b3a', '#ff6b6b', '#ff5252', '#22c55e'
 ];
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (dashboardData) renderFunnel(dashboardData);
+}
 
 function renderLeads(leads) {
   const leadsDiv = document.getElementById('leadsTable');
@@ -111,16 +139,107 @@ function renderLeads(leads) {
     leadsDiv.innerHTML = '<div class="no-data">Nenhum lead ainda.</div>';
     leadsCountEl.textContent = '';
   } else {
-    leadsCountEl.textContent = `(${leads.length})`;
+    leadsCountEl.textContent = '(' + leads.length + ')';
     const reversed = [...leads].reverse();
-    let thtml = '<table class="leads-table"><thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>Status</th></tr></thead><tbody>';
+    let thtml = '<table class="leads-table"><thead><tr><th>Nome</th><th>Telefone</th><th>Funil</th><th>Data</th><th>Status</th></tr></thead><tbody>';
     for (const l of reversed) {
       const statusClass = l.status === 'enviado' ? 'status-ok' : 'status-err';
       const statusIcon = l.status === 'enviado' ? '✅' : '❌';
-      thtml += `<tr><td>${l.nome}</td><td>${l.telefone}</td><td>${l.data}</td><td class="${statusClass}">${statusIcon} ${l.status}</td></tr>`;
+      const pathClass = 'path-' + (l.path || 'casa');
+      const pathLabel = l.path || '-';
+      thtml += '<tr><td>' + l.nome + '</td><td>' + l.telefone + '</td><td><span class="path-badge ' + pathClass + '">' + pathLabel + '</span></td><td>' + l.data + '</td><td class="' + statusClass + '">' + statusIcon + ' ' + l.status + '</td></tr>';
     }
     thtml += '</tbody></table>';
     leadsDiv.innerHTML = thtml;
+  }
+}
+
+function renderFunnel(data) {
+  const chart = document.getElementById('funnelChart');
+  const funnels = data.funnels || {};
+  const funnelData = funnels[currentTab];
+
+  if (!funnelData || !funnelData.funnel || funnelData.funnel.length === 0) {
+    chart.innerHTML = '<div class="no-data">Nenhum dado para este funil.<br>Acesse o quiz para gerar dados.</div>';
+    document.getElementById('totalSessions').textContent = '0';
+    document.getElementById('totalComplete').textContent = '0';
+    document.getElementById('conversionRate').textContent = '0%';
+    document.getElementById('worstDrop').innerHTML = '';
+    return;
+  }
+
+  const funnel = funnelData.funnel;
+  const total = funnelData.total_sessions || 0;
+  const complete = funnelData.total_complete || 0;
+  const rate = total > 0 ? Math.round((complete / total) * 100) : 0;
+
+  document.getElementById('totalSessions').textContent = total;
+  document.getElementById('totalComplete').textContent = complete;
+  document.getElementById('conversionRate').textContent = rate + '%';
+
+  if (total === 0) {
+    chart.innerHTML = '<div class="no-data">Nenhum dado para este funil.<br>Acesse o quiz para gerar dados.</div>';
+    document.getElementById('worstDrop').innerHTML = '';
+    return;
+  }
+
+  let html = [];
+  let worstDrop = { from: '', to: '', pct: 0, idx: 0 };
+
+  for (let i = 0; i < funnel.length; i++) {
+    const f = funnel[i];
+    const barColor = barColors[i] || '#C9A84C';
+    const nextCount = i < funnel.length - 1 ? funnel[i + 1].count : f.count;
+    const stepPct = f.count > 0 ? Math.min(100, Math.round((nextCount / f.count) * 100)) : 0;
+
+    html.push(
+      '<div class="funnel-row">' +
+        '<div class="funnel-num">' + f.step + '</div>' +
+        '<div class="funnel-name">' + f.name + '</div>' +
+        '<div class="funnel-bar-bg">' +
+          '<div class="funnel-bar-fill" style="width:' + Math.max(stepPct, 3) + '%;background:' + barColor + '30;border-left:3px solid ' + barColor + ';"></div>' +
+          '<span class="funnel-bar-count">' + f.count + '</span>' +
+        '</div>' +
+        '<div class="funnel-pct" style="color:' + barColor + '">' + stepPct + '%</div>' +
+      '</div>'
+    );
+
+    if (i < funnel.length - 1 && f.count > 0) {
+      const next = funnel[i + 1];
+      const drop = f.count - next.count;
+      const dropPct = Math.round((drop / f.count) * 100);
+
+      if (drop > 0) {
+        html.push(
+          '<div class="drop-row"><div class="drop-spacer"></div><div class="drop-line">' +
+            '<span class="drop-arrow">▼</span>' +
+            '<span class="drop-text">-' + drop + ' saiu (' + dropPct + '% perdeu)</span>' +
+          '</div></div>'
+        );
+        if (dropPct > worstDrop.pct) {
+          worstDrop = { from: f.name, to: next.name, pct: dropPct, count: drop, idx: f.step };
+        }
+      } else {
+        html.push(
+          '<div class="drop-row"><div class="drop-spacer"></div><div class="drop-line">' +
+            '<span class="drop-text-green">↓ 0 saiu</span>' +
+          '</div></div>'
+        );
+      }
+    }
+  }
+
+  chart.innerHTML = html.join('');
+
+  const worstBox = document.getElementById('worstDrop');
+  if (worstDrop.pct > 0) {
+    worstBox.innerHTML =
+      '<div class="worst-box"><div class="worst-title">⚠ Maior ponto de saida</div>' +
+      '<div class="worst-text">Entre <strong>' + worstDrop.from + '</strong> e <strong>' + worstDrop.to + '</strong>: ' +
+      '<span class="worst-highlight">' + worstDrop.count + ' leads sairam (' + worstDrop.pct + '%)</span><br>' +
+      'Considere melhorar a tela ' + worstDrop.idx + ' para reduzir abandono.</div></div>';
+  } else {
+    worstBox.innerHTML = '';
   }
 }
 
@@ -131,98 +250,10 @@ async function loadDashboard() {
   try {
     const res = await fetch(API);
     const data = await res.json();
+    dashboardData = data;
 
-    const total = data.total_sessions || 0;
-    const complete = data.total_complete || 0;
-    const rate = total > 0 ? Math.round((complete / total) * 100) : 0;
-
-    document.getElementById('totalSessions').textContent = total;
-    document.getElementById('totalComplete').textContent = complete;
-    document.getElementById('conversionRate').textContent = rate + '%';
-
-    // Renderizar leads independente do funil
     renderLeads(data.leads || []);
-
-    if (!data.funnel || data.funnel.length === 0 || total === 0) {
-      chart.innerHTML = '<div class="no-data">Nenhum dado ainda.<br>Acesse o quiz para gerar dados.</div>';
-      return;
-    }
-
-    const funnel = data.funnel;
-    let html = [];
-    let worstDrop = { from: '', to: '', pct: 0, idx: 0 };
-
-    for (let i = 0; i < funnel.length; i++) {
-      const f = funnel[i];
-      const barColor = barColors[i] || '#C9A84C';
-      const nextCount = i < funnel.length - 1 ? funnel[i + 1].count : f.count;
-      const stepPct = f.count > 0 ? Math.min(100, Math.round((nextCount / f.count) * 100)) : 0;
-
-      html.push(`
-        <div class="funnel-row">
-          <div class="funnel-num">${f.step}</div>
-          <div class="funnel-name">${f.name}</div>
-          <div class="funnel-bar-bg">
-            <div class="funnel-bar-fill" style="width:${Math.max(stepPct, 3)}%;background:${barColor}30;border-left:3px solid ${barColor};">
-            </div>
-            <span class="funnel-bar-count">${f.count}</span>
-          </div>
-          <div class="funnel-pct" style="color:${barColor}">${stepPct}%</div>
-        </div>
-      `);
-
-      if (i < funnel.length - 1 && f.count > 0) {
-        const next = funnel[i + 1];
-        const drop = f.count - next.count;
-        const dropPct = Math.round((drop / f.count) * 100);
-
-        if (drop > 0) {
-          html.push(`
-            <div class="drop-row">
-              <div class="drop-spacer"></div>
-              <div class="drop-line">
-                <span class="drop-arrow">▼</span>
-                <span class="drop-text">-${drop} saiu (${dropPct}% perdeu)</span>
-              </div>
-            </div>
-          `);
-
-          if (dropPct > worstDrop.pct) {
-            worstDrop = { from: f.name, to: next.name, pct: dropPct, count: drop, idx: f.step };
-          }
-        } else {
-          html.push(`
-            <div class="drop-row">
-              <div class="drop-spacer"></div>
-              <div class="drop-line">
-                <span class="drop-text-green">↓ 0 saiu</span>
-              </div>
-            </div>
-          `);
-        }
-      }
-    }
-
-    chart.innerHTML = html.join('');
-
-    // Pior ponto de saida
-    const worstBox = document.getElementById('worstDrop');
-    if (worstDrop.pct > 0) {
-      worstBox.innerHTML = `
-        <div class="worst-box">
-          <div class="worst-title">⚠ Maior ponto de saida</div>
-          <div class="worst-text">
-            Entre <strong>${worstDrop.from}</strong> e <strong>${worstDrop.to}</strong>:
-            <span class="worst-highlight">${worstDrop.count} leads sairam (${worstDrop.pct}%)</span><br>
-            Considere melhorar a tela ${worstDrop.idx} para reduzir abandono.
-          </div>
-        </div>
-      `;
-    } else {
-      worstBox.innerHTML = '';
-    }
-
-    // Leads ja renderizado antes do return condicional
+    renderFunnel(data);
 
   } catch(e) {
     chart.innerHTML = '<div class="error-msg">Erro ao carregar dados.<br>Verifique se os workflows estao ativos no n8n.</div>';
@@ -230,7 +261,7 @@ async function loadDashboard() {
 }
 
 async function resetData() {
-  if (!confirm('Zerar todos os dados do funil?')) return;
+  if (!confirm('Zerar TODOS os dados dos 3 funis + leads?')) return;
   try {
     await fetch('https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-stats', {
       method: 'POST',

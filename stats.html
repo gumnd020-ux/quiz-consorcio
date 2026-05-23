@@ -157,7 +157,8 @@ async function loadDashboard() {
       const f = funnel[i];
       const pct = Math.min(100, Math.round((f.count / maxCount) * 100));
       const barColor = barColors[i] || '#C9A84C';
-      const pctOfTotal = total > 0 ? Math.min(100, Math.round((f.count / total) * 100)) : 0;
+      const prevCount = i === 0 ? f.count : funnel[i - 1].count;
+      const pctOfTotal = prevCount > 0 ? Math.min(100, Math.round((f.count / prevCount) * 100)) : 0;
 
       html.push(`
         <div class="funnel-row">

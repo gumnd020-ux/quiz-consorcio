@@ -1046,6 +1046,9 @@ async function submitQuiz() {
   goTo(13);
 }
 
+// Rastrear tela 1 no carregamento
+trackEvent('step', 1);
+
 // GA4: detectar abandono ao sair da página
 window.addEventListener('beforeunload', function() {
   const currentScreen = document.querySelector('.screen.active');

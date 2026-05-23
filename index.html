@@ -943,6 +943,11 @@ function choosePath(path, label) {
   btns.forEach(b => b.classList.remove('selected'));
   event.currentTarget.classList.add('selected');
 
+  // Retroativamente registrar steps 1, 2, 3 no funil correto
+  trackEvent('step', 1);
+  trackEvent('step', 2);
+  trackEvent('step', 3);
+
   applyPathContent(path);
 
   setTimeout(() => goTo(4), 300);

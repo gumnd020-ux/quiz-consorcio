@@ -1050,17 +1050,20 @@ async function submitQuiz() {
 trackEvent('step', 1);
 
 // GA4: detectar abandono ao sair da página
-window.addEventListener('beforeunload', function() {
+window.addEventListener('beforeunload', function(e) {
   const currentScreen = document.querySelector('.screen.active');
-  if (currentScreen && typeof gtag === 'function') {
+  if (currentScreen) {
     const screenId = parseInt(currentScreen.id.replace('screen', ''));
-    if (screenId < 13) {
+    if (screenId >= 1 && screenId <= 12) {
+      e.preventDefault();
       trackEvent('abandon', screenId);
-      gtag('event', 'quiz_abandon', {
-        last_step: screenId,
-        last_step_name: screenNames[screenId] || 'tela_' + screenId,
-        progress_percent: Math.round((screenId / totalScreens) * 100)
-      });
+      if (typeof gtag === 'function') {
+        gtag('event', 'quiz_abandon', {
+          last_step: screenId,
+          last_step_name: screenNames[screenId] || 'tela_' + screenId,
+          progress_percent: Math.round((screenId / totalScreens) * 100)
+        });
+      }
     }
   }
 });

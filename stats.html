@@ -149,27 +149,25 @@ async function loadDashboard() {
     }
 
     const funnel = data.funnel;
-    const maxCount = Math.max(...funnel.map(f => f.count), 1);
     let html = [];
     let worstDrop = { from: '', to: '', pct: 0, idx: 0 };
 
     for (let i = 0; i < funnel.length; i++) {
       const f = funnel[i];
-      const pct = Math.min(100, Math.round((f.count / maxCount) * 100));
       const barColor = barColors[i] || '#C9A84C';
       const prevCount = i === 0 ? f.count : funnel[i - 1].count;
-      const pctOfTotal = prevCount > 0 ? Math.min(100, Math.round((f.count / prevCount) * 100)) : 0;
+      const stepPct = prevCount > 0 ? Math.min(100, Math.round((f.count / prevCount) * 100)) : 0;
 
       html.push(`
         <div class="funnel-row">
           <div class="funnel-num">${f.step}</div>
           <div class="funnel-name">${f.name}</div>
           <div class="funnel-bar-bg">
-            <div class="funnel-bar-fill" style="width:${Math.max(pct, 3)}%;background:${barColor}30;border-left:3px solid ${barColor};">
+            <div class="funnel-bar-fill" style="width:${Math.max(stepPct, 3)}%;background:${barColor}30;border-left:3px solid ${barColor};">
             </div>
             <span class="funnel-bar-count">${f.count}</span>
           </div>
-          <div class="funnel-pct" style="color:${barColor}">${pctOfTotal}%</div>
+          <div class="funnel-pct" style="color:${barColor}">${stepPct}%</div>
         </div>
       `);
 

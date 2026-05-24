@@ -67,6 +67,18 @@
   .path-imovel { background: rgba(74,222,128,0.15); color: #4ade80; }
   .path-carta { background: rgba(201,168,76,0.15); color: #C9A84C; }
   .path-veiculo { background: rgba(96,165,250,0.15); color: #60a5fa; }
+
+  .leads-table tr.lead-row { cursor: pointer; }
+  .leads-table tr.lead-row:hover td { background: #1a1a24; }
+  .lead-toggle { color: #555; font-size: 10px; transition: transform 0.2s; display: inline-block; margin-right: 6px; }
+  .lead-row.open .lead-toggle { transform: rotate(90deg); }
+  .lead-detail { display: none; }
+  .lead-row.open + .lead-detail { display: table-row; }
+  .lead-detail td { padding: 8px 12px 16px 12px; border-bottom: 1px solid #222; }
+  .detail-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .detail-item { background: #1a1a24; border-radius: 6px; padding: 8px 12px; flex: 1 1 45%; min-width: 140px; }
+  .detail-label { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .detail-value { font-size: 12px; color: #ccc; font-weight: 500; }
 </style>
 </head>
 <body>
@@ -132,6 +144,10 @@ function switchTab(tab) {
   if (dashboardData) renderFunnel(dashboardData);
 }
 
+function toggleLead(el) {
+  el.classList.toggle('open');
+}
+
 function renderLeads(leads) {
   const leadsDiv = document.getElementById('leadsTable');
   const leadsCountEl = document.getElementById('leadsCount');
@@ -145,9 +161,23 @@ function renderLeads(leads) {
     for (const l of reversed) {
       const statusClass = l.status === 'enviado' ? 'status-ok' : 'status-err';
       const statusIcon = l.status === 'enviado' ? '✅' : '❌';
-      const pathClass = 'path-' + (l.path || 'casa');
+      const pathClass = 'path-' + (l.path || 'imovel');
       const pathLabel = l.path || '-';
-      thtml += '<tr><td>' + l.nome + '</td><td>' + l.telefone + '</td><td><span class="path-badge ' + pathClass + '">' + pathLabel + '</span></td><td>' + l.data + '</td><td class="' + statusClass + '">' + statusIcon + ' ' + l.status + '</td></tr>';
+      const r = l.respostas || {};
+      const hasRespostas = Object.keys(r).length > 0;
+
+      thtml += '<tr class="lead-row" onclick="toggleLead(this)"><td><span class="lead-toggle">▶</span>' + l.nome + '</td><td>' + l.telefone + '</td><td><span class="path-badge ' + pathClass + '">' + pathLabel + '</span></td><td>' + l.data + '</td><td class="' + statusClass + '">' + statusIcon + ' ' + l.status + '</td></tr>';
+
+      if (hasRespostas) {
+        thtml += '<tr class="lead-detail"><td colspan="5"><div class="detail-grid">';
+        if (r.tempo_contemplacao) thtml += '<div class="detail-item"><div class="detail-label">Tempo contemplação</div><div class="detail-value">' + r.tempo_contemplacao + '</div></div>';
+        if (r.valor_carta) thtml += '<div class="detail-item"><div class="detail-label">Valor carta</div><div class="detail-value">' + r.valor_carta + '</div></div>';
+        if (r.valor_parcela) thtml += '<div class="detail-item"><div class="detail-label">Parcela</div><div class="detail-value">' + r.valor_parcela + '</div></div>';
+        if (r.objecao) thtml += '<div class="detail-item"><div class="detail-label">Objeção</div><div class="detail-value">' + r.objecao + '</div></div>';
+        if (r.ancora) thtml += '<div class="detail-item"><div class="detail-label">Âncora prazo</div><div class="detail-value">' + r.ancora + '</div></div>';
+        if (r.urgencia) thtml += '<div class="detail-item"><div class="detail-label">Urgência</div><div class="detail-value">' + r.urgencia + '</div></div>';
+        thtml += '</div></td></tr>';
+      }
     }
     thtml += '</tbody></table>';
     leadsDiv.innerHTML = thtml;

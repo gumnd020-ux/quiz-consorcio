@@ -590,20 +590,6 @@
     <div class="screen-title">Você sabe <span class="gold">quanto tempo</span> demora pra ser contemplado no consórcio?</div>
     <div class="screen-desc">Descubra em 2 minutos — e conheça a estratégia que pode <strong>acelerar sua contemplação</strong>.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(1, 'Menos de 1 ano')">
-        <div class="option-icon">⚡</div>
-        <div class="option-text">
-          <div class="option-label">Menos de 1 ano</div>
-          <div class="option-sub">Seria o ideal, né?</div>
-        </div>
-      </button>
-      <button class="option-btn" onclick="answer(1, '1 a 3 anos')">
-        <div class="option-icon">📅</div>
-        <div class="option-text">
-          <div class="option-label">1 a 3 anos</div>
-          <div class="option-sub">É o que a maioria espera</div>
-        </div>
-      </button>
       <button class="option-btn" onclick="answer(1, 'Mais de 5 anos')">
         <div class="option-icon">😰</div>
         <div class="option-text">
@@ -625,8 +611,8 @@
   <div class="screen" id="screen2">
     <div class="screen-tag">O que ninguém te contou</div>
     <div class="screen-title">90% das pessoas <span class="gold">não conhecem</span> esse caminho</div>
-    <div class="screen-desc">A maioria acha que precisa dar <strong>entrada de 20-30%</strong> ou aceitar <strong>juros de 10% ao ano</strong> pra conquistar um bem.</div>
-    <div class="screen-desc">Mas existe a <strong>carta de crédito por consórcio</strong> — sem juros, sem entrada, com parcelas que cabem no bolso.</div>
+    <div class="screen-desc">A maioria não sabe que pode ser usada como investimento ou acha que precisa dar <strong>entrada de 20-30%</strong> e <strong>juros de 12% ao ano</strong> pra conquistar um bem.</div>
+    <div class="screen-desc">Mas existe a <strong>carta de crédito</strong> sem juros, sem entrada, com parcelas que cabem no bolso.</div>
     <div class="stat-row">
       <div class="stat-card">
         <div class="stat-number">0%</div>
@@ -637,8 +623,8 @@
         <div class="stat-label">De entrada</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">240×</div>
-        <div class="stat-label">Parcelas fixas</div>
+        <div class="stat-number">Alta×</div>
+        <div class="stat-label">Rentabilidade</div>
       </div>
     </div>
     <button class="cta-btn" onclick="goTo(3)">Quero entender melhor</button>
@@ -661,14 +647,14 @@
         <div class="option-icon">💰</div>
         <div class="option-text">
           <div class="option-label">Contemplar e vender a carta</div>
-          <div class="option-sub">Investimento para lucrar com o crédito</div>
+          <div class="option-sub">Investimento para lucrar com a carta</div>
         </div>
       </button>
       <button class="option-btn" onclick="choosePath('veiculo', 'Compra ou troca de veículo')">
         <div class="option-icon">🚗</div>
         <div class="option-text">
           <div class="option-label">Compra ou troca de veículo</div>
-          <div class="option-sub">Carro ou moto sem juros</div>
+          <div class="option-sub">Carro sem juros</div>
         </div>
       </button>
     </div>
@@ -747,7 +733,7 @@
       <div class="big-number">6 a 8 anos</div>
       <div class="big-label">prazo médio sem estratégia de aceleração</div>
     </div>
-    <div class="screen-desc">Esse é o prazo médio para quem entra no consórcio e <strong>apenas espera ser sorteado</strong>, sem nenhuma estratégia.</div>
+    <div class="screen-desc">Esse é o prazo médio para quem entra no consórcio e <strong>apenas espera ser sorteado</strong>, sem a Estratégia do Multiplicador.</div>
     <div class="screen-desc">Você aceitaria esperar todo esse tempo?</div>
     <div class="options">
       <button class="option-btn" onclick="answer(8, 'Não, preciso mais rápido')">
@@ -771,7 +757,7 @@
   <div class="screen" id="screen9">
     <div class="strategy-badge">✦ Estratégia exclusiva</div>
     <div class="screen-title">A <span class="gold">Estratégia do Multiplicador</span> pode reduzir seu prazo em até 70%</div>
-    <div class="screen-desc">Nossos clientes que aplicam essa metodologia estão sendo contemplados em <strong>2 a 3 anos</strong> — alguns em menos de 18 meses.</div>
+    <div class="screen-desc">Vários Clientes que aplicaram essa metodologia foram contemplados em <strong>2 a 3 anos</strong> — alguns em menos de 9 meses.</div>
     <div class="vs-row">
       <div class="vs-card before">
         <div class="vs-label">Sem estratégia</div>
@@ -813,10 +799,10 @@
   <div class="screen" id="screen11">
     <div class="screen-tag">Última pergunta</div>
     <div class="screen-title">A Ademicon é a <span class="gold">maior do Brasil</span> — e as condições mudam todo mês</div>
-    <div class="screen-desc">Mais de <strong>R$90 bilhões em créditos</strong> entregues. Regulada pelo Banco Central. Quem começa agora garante a parcela mais baixa.</div>
+    <div class="screen-desc">Mais de <strong>R$90 bilhões em créditos</strong> entregues. Regulada pelo Banco Central, Lei 11.795. Quem começa agora garante a parcela mais baixa.</div>
     <div class="stat-row">
       <div class="stat-card">
-        <div class="stat-number">30+</div>
+        <div class="stat-number">35+</div>
         <div class="stat-label">Anos no mercado</div>
       </div>
       <div class="stat-card">
@@ -838,13 +824,6 @@
         <div class="option-text">
           <div class="option-label">Esse mês ainda</div>
           <div class="option-sub">Garanto as condições atuais</div>
-        </div>
-      </button>
-      <button class="option-btn" onclick="answer(11, 'Próximos 3 meses')">
-        <div class="option-icon">📆</div>
-        <div class="option-text">
-          <div class="option-label">Nos próximos 3 meses</div>
-          <div class="option-sub">Quero me planejar primeiro</div>
         </div>
       </button>
       <button class="option-btn" onclick="answer(11, 'Pesquisando')">
@@ -910,82 +889,80 @@ const pathContent = {
   imovel: {
     title4: 'Veja a diferença <span class="gold">real</span> num imóvel de R$300 mil',
     table4: '<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>' +
-      '<tr><td>Entrada</td><td>R$60.000</td><td>R$0</td></tr>' +
+      '<tr><td>Entrada</td><td>R$70.000</td><td>R$0</td></tr>' +
       '<tr><td>Juros totais</td><td>~R$250.000</td><td>R$0</td></tr>' +
-      '<tr><td>Parcela</td><td>~R$2.800</td><td>~R$1.900</td></tr>' +
-      '<tr><td>Total pago</td><td>R$550.000</td><td>R$340.000</td></tr>',
-    savings4: 'R$210.000 de economia',
-    desc5: 'A carta de crédito é o valor total pra comprar ou construir seu imóvel:',
+      '<tr><td>Parcela</td><td>~R$3.100</td><td>~R$1.011</td></tr>' +
+      '<tr><td>Total pago</td><td>R$679.845</td><td>R$372.000</td></tr>',
+    savings4: 'R$371.320,16 de economia',
+    desc5: 'A carta de crédito é o valor total pra comprar, construir ou investir no mercado imobiliário.',
     opts5: [
-      { v: 'R$150 mil a R$300 mil', icon: '💎', label: 'R$150 mil a R$300 mil', sub: 'Apartamentos e casas compactas' },
-      { v: 'R$300 mil a R$500 mil', icon: '💎', label: 'R$300 mil a R$500 mil', sub: 'Casas e apartamentos maiores' },
-      { v: 'R$500 mil a R$750 mil', icon: '💎', label: 'R$500 mil a R$750 mil', sub: 'Imóveis de alto padrão' },
-      { v: 'R$750 mil a R$1 milhão', icon: '💎', label: 'R$750 mil a R$1 milhão', sub: 'Imóveis premium' }
+      { v: 'R$80 mil a R$200 mil', icon: '💎', label: 'R$80 mil a R$200 mil', sub: 'Investidor Iniciante' },
+      { v: 'R$250 mil a R$500 mil', icon: '💎', label: 'R$250 mil a R$500 mil', sub: 'Investidor Avançado' },
+      { v: 'R$500 mil a R$1 milhão', icon: '💎', label: 'R$500 mil a R$1 milhão', sub: 'Investidor Premium' },
+      { v: 'Acima de R$1 milhão', icon: '💎', label: 'Acima de R$1 milhão', sub: 'Investidor Magnata' }
     ],
     opts6: [
-      { v: 'Até R$1.500/mês', icon: '📊', label: 'Até R$1.500 por mês', sub: 'Cartas de R$150 mil a R$250 mil' },
-      { v: 'R$1.500 a R$3.000/mês', icon: '📊', label: 'R$1.500 a R$3.000 por mês', sub: 'Cartas de R$250 mil a R$500 mil' },
-      { v: 'R$3.000 a R$5.000/mês', icon: '📊', label: 'R$3.000 a R$5.000 por mês', sub: 'Cartas de R$500 mil a R$750 mil' },
-      { v: 'Acima de R$5.000/mês', icon: '📊', label: 'Acima de R$5.000 por mês', sub: 'Cartas de R$750 mil a R$1 milhão' }
+      { v: 'Até R$490/mês', icon: '📊', label: 'Até R$490 por mês', sub: 'Cartas de R$80 mil a R$140 mil' },
+      { v: 'R$500 a R$1.100/mês', icon: '📊', label: 'R$500 a R$1.100 por mês', sub: 'Cartas de R$150 mil a R$300 mil' },
+      { v: 'R$1.200 a R$3.600/mês', icon: '📊', label: 'R$1.200 a R$3.600 por mês', sub: 'Cartas de R$350 mil a R$1 milhão' },
+      { v: 'Acima de R$3.600/mês', icon: '📊', label: 'Acima de R$3.600 por mês', sub: 'Cartas acima de R$1 milhão' }
     ],
-    title10: 'O João usou a Estratégia do Multiplicador e <span class="gold">conquistou seu imóvel</span>',
-    testimonial10: 'Eu achava que consórcio era furada e que ia demorar 10 anos. Comecei com R$1.400 por mês numa carta de R$250 mil. Com a estratégia que o consultor me passou, fui contemplado em 14 meses e comprei meu apartamento à vista — negociei 15% de desconto.',
-    avatar10: 'JM', name10: 'João M.', detail10: 'Contemplado em 14 meses',
-    proof10: 'R$320 mil', proofLabel10: 'valor do imóvel hoje — comprado por R$212 mil',
+    title10: 'O Josiel usou a Estratégia do Multiplicador e <span class="gold">conquistou seu imóvel</span>',
+    testimonial10: 'Eu achava que consórcio era furada, pagava aluguel a 13 anos e resolvi tentar a oportunidade. Comecei com R$1.400 por mês numa carta de R$400 mil. Com a estratégia que o consultor me passou, fui contemplado em 9 meses e comprei meu apartamento à vista, negociei 15% de desconto.',
+    avatar10: 'JM', name10: 'Josiel M.', detail10: 'Contemplado em 9 meses',
+    proof10: 'R$520 mil', proofLabel10: 'valor do imóvel hoje — comprado por R$340 mil',
     resultGoal: 'Estratégia pra conquistar seu imóvel'
   },
   carta: {
-    title4: 'Veja a diferença <span class="gold">real</span> num crédito de R$200 mil',
-    table4: '<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>' +
-      '<tr><td>Entrada</td><td>R$40.000</td><td>R$0</td></tr>' +
-      '<tr><td>Juros totais</td><td>~R$100.000</td><td>R$0</td></tr>' +
-      '<tr><td>Parcela</td><td>~R$2.500</td><td>~R$1.400</td></tr>' +
-      '<tr><td>Total pago</td><td>R$300.000</td><td>R$230.000</td></tr>',
-    savings4: 'R$70.000 de economia + carta revendível',
+    title4: 'Imagine que você contemplou sua carta em 12 meses e vendeu por <span class="gold">35% de ágio</span> no mercado:',
+    table4: '<tr><th>Carta de Crédito</th><th>Investimento em 12x</th><th>Lucro na venda</th></tr>' +
+      '<tr><td>R$100.000,00</td><td>R$4.047,60</td><td>R$35.000,00</td></tr>' +
+      '<tr><td>R$200.000,00</td><td>R$8.095,20</td><td>R$70.000,00</td></tr>',
+    savings4: 'Vendendo a carta você não paga mais parcelas, reinicie a operação',
     desc5: 'A carta de crédito é o valor que você vai utilizar como investimento:',
     opts5: [
-      { v: 'R$100 mil a R$250 mil', icon: '💰', label: 'R$100 mil a R$250 mil', sub: 'Primeiro investimento' },
-      { v: 'R$250 mil a R$500 mil', icon: '💰', label: 'R$250 mil a R$500 mil', sub: 'Investimento intermediário' },
-      { v: 'R$500 mil a R$1 milhão', icon: '💰', label: 'R$500 mil a R$1 milhão', sub: 'Investimento robusto' },
-      { v: 'Acima de R$1 milhão', icon: '💰', label: 'Acima de R$1 milhão', sub: 'Alto patrimônio' }
+      { v: 'R$80 mil a R$100 mil', icon: '💰', label: 'R$80 mil a R$100 mil', sub: 'Investidor Básico' },
+      { v: 'R$120 mil a R$400 mil', icon: '💰', label: 'R$120 mil a R$400 mil', sub: 'Investidor Avançado' },
+      { v: 'R$500 mil a R$1 milhão', icon: '💰', label: 'R$500 mil a R$1 milhão', sub: 'Investidor Premium' },
+      { v: 'Acima de R$1 milhão', icon: '💰', label: 'Acima de R$1 milhão', sub: 'Investidor Magnata' }
     ],
     opts6: [
-      { v: 'Até R$1.000/mês', icon: '📊', label: 'Até R$1.000 por mês', sub: 'Cartas de R$100 mil a R$200 mil' },
-      { v: 'R$1.000 a R$2.500/mês', icon: '📊', label: 'R$1.000 a R$2.500 por mês', sub: 'Cartas de R$200 mil a R$400 mil' },
-      { v: 'R$2.500 a R$5.000/mês', icon: '📊', label: 'R$2.500 a R$5.000 por mês', sub: 'Cartas de R$400 mil a R$700 mil' },
-      { v: 'Acima de R$5.000/mês', icon: '📊', label: 'Acima de R$5.000 por mês', sub: 'Cartas acima de R$700 mil' }
+      { v: 'Até R$490/mês', icon: '📊', label: 'Até R$490 por mês', sub: 'Cartas de R$80 mil a R$140 mil' },
+      { v: 'R$500 a R$1.100/mês', icon: '📊', label: 'R$500 a R$1.100 por mês', sub: 'Cartas de R$150 mil a R$300 mil' },
+      { v: 'R$1.200 a R$3.600/mês', icon: '📊', label: 'R$1.200 a R$3.600 por mês', sub: 'Cartas de R$350 mil a R$1 milhão' },
+      { v: 'Acima de R$3.600/mês', icon: '📊', label: 'Acima de R$3.600 por mês', sub: 'Cartas acima de R$1 milhão' }
     ],
-    title10: 'O Rafael usou a Estratégia do Multiplicador pra <span class="gold">lucrar com a carta</span>',
-    testimonial10: 'Comecei com uma carta de R$150 mil pagando R$950 por mês. Com a estratégia do consultor, fui contemplado em 16 meses. Vendi a carta com ágio e lucrei o suficiente pra começar duas novas operações. Hoje tenho 3 consórcios rodando.',
-    avatar10: 'RT', name10: 'Rafael T.', detail10: 'Contemplado em 16 meses',
-    proof10: '3 cartas', proofLabel10: 'rodando ao mesmo tempo como investimento',
+    title10: 'O Willian e a Valéria usaram a Estratégia do Multiplicador pra <span class="gold">lucrar com a carta</span>',
+    testimonial10: 'Começamos com uma carta de R$80 mil pagando R$269,84 por mês. Com a estratégia do consultor, fomos contemplado em 2 meses. Vendi a carta com ágio por mais de R$21.000,00 e iniciamos uma nova operações de valor mais alto. Estamos muito felizes com o resultado.',
+    avatar10: 'WV', name10: 'Willian e Valéria', detail10: 'Contemplado em 2 meses',
+    proof10: '1 nova carta', proofLabel10: 'rodando de valor maior',
     resultGoal: 'Estratégia de investimento com carta de crédito'
   },
   veiculo: {
     title4: 'Veja a diferença <span class="gold">real</span> num carro de R$80 mil',
     table4: '<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>' +
-      '<tr><td>Entrada</td><td>R$16.000</td><td>R$0</td></tr>' +
-      '<tr><td>Juros totais</td><td>~R$28.000</td><td>R$0</td></tr>' +
-      '<tr><td>Parcela</td><td>~R$1.800</td><td>~R$950</td></tr>' +
-      '<tr><td>Total pago</td><td>R$108.000</td><td>R$85.000</td></tr>',
-    savings4: 'R$23.000 de economia',
+      '<tr><td>Entrada</td><td>R$21.000</td><td>R$0</td></tr>' +
+      '<tr><td>Juros totais</td><td>~R$78.000</td><td>R$0</td></tr>' +
+      '<tr><td>Parcela</td><td>~R$1.800</td><td>~R$750</td></tr>' +
+      '<tr><td>Total pago</td><td>R$139.000</td><td>R$92.000</td></tr>',
+    savings4: 'R$47.000 de economia',
     desc5: 'A carta de crédito é o valor total pra comprar seu veículo:',
     opts5: [
       { v: 'Até R$50 mil', icon: '🚗', label: 'Até R$50 mil', sub: 'Carros populares e motos' },
       { v: 'R$50 mil a R$100 mil', icon: '🚗', label: 'R$50 mil a R$100 mil', sub: 'Carros seminovos e novos populares' },
       { v: 'R$100 mil a R$200 mil', icon: '🚗', label: 'R$100 mil a R$200 mil', sub: 'Carros novos e SUVs' },
-      { v: 'Acima de R$200 mil', icon: '🚗', label: 'Acima de R$200 mil', sub: 'Veículos de luxo e caminhonetes' }
+      { v: 'Acima de R$200 mil', icon: '🚗', label: 'Acima de R$200 mil', sub: 'Veículos de luxo, caminhonetes e pesados' }
     ],
     opts6: [
-      { v: 'Até R$500/mês', icon: '📊', label: 'Até R$500 por mês', sub: 'Cartas de R$30 mil a R$50 mil' },
-      { v: 'R$500 a R$1.000/mês', icon: '📊', label: 'R$500 a R$1.000 por mês', sub: 'Cartas de R$50 mil a R$100 mil' },
+      { v: 'Até R$500/mês', icon: '📊', label: 'Até R$500 por mês', sub: 'Cartas de R$40 mil a R$60 mil' },
+      { v: 'R$500 a R$1.000/mês', icon: '📊', label: 'R$500 a R$1.000 por mês', sub: 'Cartas de R$60 mil a R$100 mil' },
       { v: 'R$1.000 a R$2.000/mês', icon: '📊', label: 'R$1.000 a R$2.000 por mês', sub: 'Cartas de R$100 mil a R$200 mil' },
       { v: 'Acima de R$2.000/mês', icon: '📊', label: 'Acima de R$2.000 por mês', sub: 'Cartas acima de R$200 mil' }
     ],
     title10: 'A Marina usou a Estratégia do Multiplicador e <span class="gold">conquistou seu carro</span>',
     testimonial10: 'Sempre achei que pra trocar de carro tinha que financiar e pagar juros absurdos. Entrei no consórcio com R$700 por mês e com a estratégia do consultor, fui contemplada em 8 meses. Comprei meu carro à vista — o vendedor ainda me deu desconto.',
     avatar10: 'MS', name10: 'Marina S.', detail10: 'Contemplada em 8 meses',
-    proof10: 'R$15.000', proofLabel10: 'economizados comparado ao financiamento',
+    proof10: 'R$25.000', proofLabel10: 'economizados comparado ao financiamento',
     resultGoal: 'Melhor condição pra conquistar seu veículo'
   }
 };

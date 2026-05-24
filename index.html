@@ -306,7 +306,7 @@
   }
 
   .testimonial::before {
-    content: '"';
+    content: '\201C';
     font-family: 'Playfair Display', serif;
     font-size: 60px;
     color: var(--gold);
@@ -473,11 +473,101 @@
     flex-shrink: 0;
   }
 
+  /* Anchor box - red tone for pain point */
+  .anchor-box {
+    background: linear-gradient(135deg, rgba(255,75,75,0.08), rgba(255,75,75,0.03));
+    border: 1px solid rgba(255,75,75,0.2);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .anchor-box .big-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #ff6b6b;
+  }
+
+  .anchor-box .big-label {
+    font-size: 13px;
+    color: #ff8a8a;
+    margin-top: 4px;
+  }
+
+  /* Before/After comparison */
+  .vs-row {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+    align-items: stretch;
+  }
+
+  .vs-card {
+    flex: 1;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .vs-card.before {
+    background: rgba(255,75,75,0.05);
+    border: 1px solid rgba(255,75,75,0.15);
+  }
+
+  .vs-card.after {
+    background: rgba(76,201,120,0.05);
+    border: 1px solid rgba(76,201,120,0.15);
+  }
+
+  .vs-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .vs-card.before .vs-label { color: #ff6b6b; }
+  .vs-card.after .vs-label { color: #4cc978; }
+
+  .vs-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .vs-card.before .vs-value { color: #ff6b6b; }
+  .vs-card.after .vs-value { color: #4cc978; }
+
+  .vs-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .strategy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(76,201,120,0.1);
+    border: 1px solid rgba(76,201,120,0.2);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #4cc978;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
   @media (max-width: 380px) {
     .screen-title { font-size: 22px; }
     .stat-number { font-size: 24px; }
     .compare-table { font-size: 13px; }
     .compare-table th, .compare-table td { padding: 10px 8px; }
+    .anchor-box .big-number { font-size: 34px; }
+    .vs-value { font-size: 24px; }
   }
 </style>
 </head>
@@ -494,30 +584,44 @@
     <div class="progress-text" id="progressText">1 de 12</div>
   </div>
 
-  <!-- TELA 1 - Hook emocional -->
+  <!-- TELA 1 - Hook: Quanto tempo pra contemplar? -->
   <div class="screen active" id="screen1">
     <div class="screen-tag">Pergunta rápida</div>
-    <div class="screen-title">Se você pudesse conquistar um patrimônio pagando <span class="gold">menos da metade</span> do que pagaria num financiamento...</div>
-    <div class="screen-desc">Você faria?</div>
+    <div class="screen-title">Você sabe <span class="gold">quanto tempo</span> demora pra ser contemplado no consórcio?</div>
+    <div class="screen-desc">Descubra em 2 minutos — e conheça a estratégia que pode <strong>acelerar sua contemplação</strong>.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(1, 'Sim, quero saber como')">
-        <div class="option-icon">✨</div>
+      <button class="option-btn" onclick="answer(1, 'Menos de 1 ano')">
+        <div class="option-icon">⚡</div>
         <div class="option-text">
-          <div class="option-label">Sim, quero saber como</div>
-          <div class="option-sub">Me mostra esse caminho</div>
+          <div class="option-label">Menos de 1 ano</div>
+          <div class="option-sub">Seria o ideal, né?</div>
         </div>
       </button>
-      <button class="option-btn" onclick="answer(1, 'Parece bom demais')">
+      <button class="option-btn" onclick="answer(1, '1 a 3 anos')">
+        <div class="option-icon">📅</div>
+        <div class="option-text">
+          <div class="option-label">1 a 3 anos</div>
+          <div class="option-sub">É o que a maioria espera</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(1, 'Mais de 5 anos')">
+        <div class="option-icon">😰</div>
+        <div class="option-text">
+          <div class="option-label">Mais de 5 anos</div>
+          <div class="option-sub">Tenho medo de demorar demais</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(1, 'Não faço ideia')">
         <div class="option-icon">🤔</div>
         <div class="option-text">
-          <div class="option-label">Parece bom demais pra ser verdade</div>
-          <div class="option-sub">Quero ver os números</div>
+          <div class="option-label">Não faço ideia</div>
+          <div class="option-sub">Por isso estou aqui</div>
         </div>
       </button>
     </div>
   </div>
 
-  <!-- TELA 2 - Reframe -->
+  <!-- TELA 2 - Reframe (mantida) -->
   <div class="screen" id="screen2">
     <div class="screen-tag">O que ninguém te contou</div>
     <div class="screen-title">90% das pessoas <span class="gold">não conhecem</span> esse caminho</div>
@@ -546,25 +650,25 @@
     <div class="screen-title">Qual é o seu <span class="gold">maior plano</span> hoje?</div>
     <div class="screen-desc">Cada objetivo tem uma estratégia diferente. Me conta o seu:</div>
     <div class="options">
-      <button class="option-btn" onclick="choosePath('casa', 'Casa própria')">
+      <button class="option-btn" onclick="choosePath('imovel', 'Compra de imóvel')">
         <div class="option-icon">🏠</div>
         <div class="option-text">
-          <div class="option-label">Casa própria</div>
-          <div class="option-sub">Comprar, construir ou reformar imóvel</div>
+          <div class="option-label">Compra de imóvel</div>
+          <div class="option-sub">Próprio ou para investimento</div>
         </div>
       </button>
-      <button class="option-btn" onclick="choosePath('carro', 'Veículo')">
+      <button class="option-btn" onclick="choosePath('carta', 'Contemplar e vender a carta')">
+        <div class="option-icon">💰</div>
+        <div class="option-text">
+          <div class="option-label">Contemplar e vender a carta</div>
+          <div class="option-sub">Investimento para lucrar com o crédito</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="choosePath('veiculo', 'Compra ou troca de veículo')">
         <div class="option-icon">🚗</div>
         <div class="option-text">
-          <div class="option-label">Veículo</div>
+          <div class="option-label">Compra ou troca de veículo</div>
           <div class="option-sub">Carro ou moto sem juros</div>
-        </div>
-      </button>
-      <button class="option-btn" onclick="choosePath('investimento', 'Investimento')">
-        <div class="option-icon">📈</div>
-        <div class="option-text">
-          <div class="option-label">Investimento</div>
-          <div class="option-sub">Patrimônio, terreno ou imóvel pra renda</div>
         </div>
       </button>
     </div>
@@ -590,55 +694,42 @@
     <div class="options" id="opts5"></div>
   </div>
 
-  <!-- TELA 6 - Ancoragem (conteúdo dinâmico) -->
+  <!-- TELA 6 - Valor da parcela (conteúdo dinâmico) -->
   <div class="screen" id="screen6">
-    <div class="screen-tag">Pense nisso</div>
-    <div class="screen-title" id="title6"></div>
-    <div class="screen-desc" id="desc6a"></div>
-    <div class="screen-desc" id="desc6b"></div>
-    <div class="highlight-box">
-      <div class="big-number" id="anchor6"></div>
-      <div class="big-label" id="anchorLabel6"></div>
-    </div>
-    <button class="cta-btn" onclick="goTo(7)">Faz sentido pra mim</button>
-  </div>
-
-  <!-- TELA 7 - Valor da parcela (conteúdo dinâmico) -->
-  <div class="screen" id="screen7">
     <div class="screen-tag">Seu orçamento</div>
     <div class="screen-title">Quanto você consegue investir <span class="gold">por mês</span>?</div>
     <div class="screen-desc">Sem compromisso — é pra encontrar a carta que encaixa no seu bolso:</div>
-    <div class="options" id="opts7"></div>
+    <div class="options" id="opts6"></div>
   </div>
 
-  <!-- TELA 8 - Objeções -->
-  <div class="screen" id="screen8">
+  <!-- TELA 7 - Objeções -->
+  <div class="screen" id="screen7">
     <div class="screen-tag">Seja honesto</div>
     <div class="screen-title">O que mais te <span class="gold">impede</span> hoje?</div>
     <div class="screen-desc">Escolha o que mais pesa. Sem julgamento:</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(8, 'Não tenho valor pra entrada')">
+      <button class="option-btn" onclick="answer(7, 'Medo de demorar pra contemplar')">
+        <div class="option-icon">⏰</div>
+        <div class="option-text">
+          <div class="option-label">Medo de demorar pra contemplar</div>
+          <div class="option-sub">Existe estratégia pra acelerar</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(7, 'Não tenho valor pra entrada')">
         <div class="option-icon">🚫</div>
         <div class="option-text">
           <div class="option-label">Não tenho valor pra dar entrada</div>
           <div class="option-sub">Consórcio não exige entrada</div>
         </div>
       </button>
-      <button class="option-btn" onclick="answer(8, 'Juros altos me assustam')">
+      <button class="option-btn" onclick="answer(7, 'Juros altos me assustam')">
         <div class="option-icon">📉</div>
         <div class="option-text">
           <div class="option-label">Juros altos me assustam</div>
           <div class="option-sub">Consórcio tem zero juros</div>
         </div>
       </button>
-      <button class="option-btn" onclick="answer(8, 'Acho que não consigo aprovação')">
-        <div class="option-icon">🏦</div>
-        <div class="option-text">
-          <div class="option-label">Acho que não consigo aprovação</div>
-          <div class="option-sub">Sem análise de crédito na adesão</div>
-        </div>
-      </button>
-      <button class="option-btn" onclick="answer(8, 'Não sei por onde começar')">
+      <button class="option-btn" onclick="answer(7, 'Não sei por onde começar')">
         <div class="option-icon">🧭</div>
         <div class="option-text">
           <div class="option-label">Não sei por onde começar</div>
@@ -648,33 +739,74 @@
     </div>
   </div>
 
-  <!-- TELA 9 - Prova social (conteúdo dinâmico) -->
+  <!-- TELA 8 - Âncora alta: prazo sem estratégia -->
+  <div class="screen" id="screen8">
+    <div class="screen-tag">Seu resultado</div>
+    <div class="screen-title">Sem nenhuma estratégia, a contemplação pode levar...</div>
+    <div class="anchor-box">
+      <div class="big-number">6 a 8 anos</div>
+      <div class="big-label">prazo médio sem estratégia de aceleração</div>
+    </div>
+    <div class="screen-desc">Esse é o prazo médio para quem entra no consórcio e <strong>apenas espera ser sorteado</strong>, sem nenhuma estratégia.</div>
+    <div class="screen-desc">Você aceitaria esperar todo esse tempo?</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(8, 'Não, preciso mais rápido')">
+        <div class="option-icon">🚀</div>
+        <div class="option-text">
+          <div class="option-label">Não, preciso mais rápido</div>
+          <div class="option-sub">Quero conhecer alternativas</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="answer(8, 'Prefiro não esperar tanto')">
+        <div class="option-icon">🤷</div>
+        <div class="option-text">
+          <div class="option-label">Prefiro não esperar tanto</div>
+          <div class="option-sub">Se tiver um jeito melhor, quero saber</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA 9 - Multiplicador: mecanismo único -->
   <div class="screen" id="screen9">
+    <div class="strategy-badge">✦ Estratégia exclusiva</div>
+    <div class="screen-title">A <span class="gold">Estratégia do Multiplicador</span> pode reduzir seu prazo em até 70%</div>
+    <div class="screen-desc">Nossos clientes que aplicam essa metodologia estão sendo contemplados em <strong>2 a 3 anos</strong> — alguns em menos de 18 meses.</div>
+    <div class="vs-row">
+      <div class="vs-card before">
+        <div class="vs-label">Sem estratégia</div>
+        <div class="vs-value">6-8 anos</div>
+        <div class="vs-detail">Esperar ser sorteado</div>
+      </div>
+      <div class="vs-card after">
+        <div class="vs-label">Com Multiplicador</div>
+        <div class="vs-value">2-3 anos</div>
+        <div class="vs-detail">Estratégia ativa</div>
+      </div>
+    </div>
+    <div class="screen-desc">Na <strong>consultoria gratuita</strong>, o consultor Leonardo Lopes vai te mostrar exatamente como aplicar essa estratégia ao seu caso.</div>
+    <button class="cta-btn" onclick="goTo(10)">Quero conhecer a estratégia</button>
+  </div>
+
+  <!-- TELA 10 - Prova social (conteúdo dinâmico) -->
+  <div class="screen" id="screen10">
     <div class="screen-tag">História real</div>
-    <div class="screen-title" id="title9"></div>
+    <div class="screen-title" id="title10"></div>
     <div class="testimonial">
-      <div class="testimonial-text" id="testimonial9"></div>
+      <div class="testimonial-text" id="testimonial10"></div>
       <div class="testimonial-author">
-        <div class="testimonial-avatar" id="avatar9"></div>
+        <div class="testimonial-avatar" id="avatar10"></div>
         <div>
-          <div class="testimonial-name" id="name9"></div>
-          <div class="testimonial-detail" id="detail9"></div>
+          <div class="testimonial-name" id="name10"></div>
+          <div class="testimonial-detail" id="detail10"></div>
         </div>
       </div>
     </div>
     <div class="highlight-box">
-      <div class="big-number" id="proof9"></div>
-      <div class="big-label" id="proofLabel9"></div>
+      <div class="big-number" id="proof10"></div>
+      <div class="big-label" id="proofLabel10"></div>
     </div>
-    <button class="cta-btn" onclick="goTo(10)">Quero o mesmo resultado</button>
-  </div>
-
-  <!-- TELA 10 - Motivação (conteúdo dinâmico) -->
-  <div class="screen" id="screen10">
-    <div class="screen-tag">Visualize</div>
-    <div class="screen-title" id="title10"></div>
-    <div class="screen-desc">O que isso mudaria na sua vida?</div>
-    <div class="options" id="opts10"></div>
+    <button class="cta-btn" onclick="goTo(11)">Quero o mesmo resultado</button>
   </div>
 
   <!-- TELA 11 - Urgência -->
@@ -728,14 +860,14 @@
   <!-- TELA 12 - Resultado + Captura -->
   <div class="screen" id="screen12">
     <div class="badge">✓ Análise completa</div>
-    <div class="screen-title">Temos a <span class="gold">carta ideal</span> pra você</div>
-    <div class="screen-desc">Com base nas suas respostas, identifiquei a melhor estratégia pro seu perfil. Um consultor vai te apresentar as condições em <strong>15 minutinhos</strong> — sem compromisso.</div>
+    <div class="screen-title">Temos a <span class="gold">estratégia ideal</span> pra você</div>
+    <div class="screen-desc">Com base nas suas respostas, identifiquei o melhor caminho pro seu perfil. O consultor vai te apresentar a <strong>Estratégia do Multiplicador</strong> personalizada em <strong>15 minutinhos</strong> — sem compromisso.</div>
 
     <ul class="result-list" id="resultList">
       <li><span class="check-icon">✓</span> Sem entrada e sem juros</li>
       <li><span class="check-icon">✓</span> <span id="resultGoal">Parcelas que cabem no bolso</span></li>
       <li><span class="check-icon">✓</span> <span id="resultCard">Carta personalizada pro seu perfil</span></li>
-      <li><span class="check-icon">✓</span> Consultoria personalizada gratuita</li>
+      <li><span class="check-icon">✓</span> Estratégia do Multiplicador aplicada ao seu caso</li>
     </ul>
 
     <div class="form-group">
@@ -747,7 +879,7 @@
       <input type="tel" class="form-input" id="inputPhone" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="numeric">
     </div>
 
-    <button class="cta-btn" id="submitBtn" onclick="submitQuiz()">Quero minha consultoria gratuita</button>
+    <button class="cta-btn" id="submitBtn" onclick="submitQuiz()">Quero minha estratégia personalizada</button>
     <div class="disclaimer">Seus dados estão seguros. Você receberá uma mensagem no WhatsApp em instantes.</div>
   </div>
 
@@ -775,13 +907,13 @@ let quizPath = '';
 
 // ===== CONTEÚDO POR CAMINHO =====
 const pathContent = {
-  casa: {
+  imovel: {
     title4: 'Veja a diferença <span class="gold">real</span> num imóvel de R$300 mil',
-    table4: `<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>
-      <tr><td>Entrada</td><td>R$60.000</td><td>R$0</td></tr>
-      <tr><td>Juros totais</td><td>~R$250.000</td><td>R$0</td></tr>
-      <tr><td>Parcela</td><td>~R$2.800</td><td>~R$1.900</td></tr>
-      <tr><td>Total pago</td><td>R$550.000</td><td>R$340.000</td></tr>`,
+    table4: '<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>' +
+      '<tr><td>Entrada</td><td>R$60.000</td><td>R$0</td></tr>' +
+      '<tr><td>Juros totais</td><td>~R$250.000</td><td>R$0</td></tr>' +
+      '<tr><td>Parcela</td><td>~R$2.800</td><td>~R$1.900</td></tr>' +
+      '<tr><td>Total pago</td><td>R$550.000</td><td>R$340.000</td></tr>',
     savings4: 'R$210.000 de economia',
     desc5: 'A carta de crédito é o valor total pra comprar ou construir seu imóvel:',
     opts5: [
@@ -790,36 +922,52 @@ const pathContent = {
       { v: 'R$500 mil a R$750 mil', icon: '💎', label: 'R$500 mil a R$750 mil', sub: 'Imóveis de alto padrão' },
       { v: 'R$750 mil a R$1 milhão', icon: '💎', label: 'R$750 mil a R$1 milhão', sub: 'Imóveis premium' }
     ],
-    title6: 'Você paga <span class="gold">aluguel</span> todo mês? Esse dinheiro nunca volta.',
-    desc6a: 'Com uma carta de R$300 mil, sua parcela começa em <strong>R$1.900/mês</strong> — valor próximo de muitos aluguéis.',
-    desc6b: 'A diferença? No final do consórcio, o imóvel é <strong>seu</strong>. No aluguel, você não tem nada.',
-    anchor6: 'R$1.900', anchorLabel6: 'por mês para conquistar R$300 mil em patrimônio',
-    opts7: [
+    opts6: [
       { v: 'Até R$1.500/mês', icon: '📊', label: 'Até R$1.500 por mês', sub: 'Cartas de R$150 mil a R$250 mil' },
       { v: 'R$1.500 a R$3.000/mês', icon: '📊', label: 'R$1.500 a R$3.000 por mês', sub: 'Cartas de R$250 mil a R$500 mil' },
       { v: 'R$3.000 a R$5.000/mês', icon: '📊', label: 'R$3.000 a R$5.000 por mês', sub: 'Cartas de R$500 mil a R$750 mil' },
       { v: 'Acima de R$5.000/mês', icon: '📊', label: 'Acima de R$5.000 por mês', sub: 'Cartas de R$750 mil a R$1 milhão' }
     ],
-    title9: 'O João tinha as <span class="gold">mesmas dúvidas</span> que você',
-    testimonial9: 'Eu achava que consórcio era furada. Comecei com R$1.400 por mês numa carta de R$250 mil. Em 14 meses fui contemplado e comprei meu apartamento à vista — negociei 15% de desconto porque paguei na hora.',
-    avatar9: 'JM', name9: 'João M.', detail9: 'Contemplado em 14 meses',
-    proof9: 'R$320 mil', proofLabel9: 'valor do imóvel hoje — comprado por R$212 mil',
-    title10: 'Imagina daqui a <span class="gold">12 meses</span>: carta contemplada, escolhendo seu imóvel.',
-    opts10: [
-      { v: 'Sairia do aluguel', icon: '🏡', label: 'Sairia do aluguel de vez', sub: 'Chega de pagar pra morar no que é dos outros' },
-      { v: 'Primeiro investimento real', icon: '🎯', label: 'Teria meu primeiro imóvel próprio', sub: 'Patrimônio que valoriza todo ano' },
-      { v: 'Segurança pra família', icon: '👨‍👩‍👧', label: 'Daria segurança pra minha família', sub: 'Um lar de verdade, no meu nome' },
-      { v: 'Realizaria um sonho antigo', icon: '⭐', label: 'Realizaria um sonho antigo', sub: 'Já esperei tempo demais' }
-    ],
-    resultGoal: 'Estratégia pra conquistar sua casa própria'
+    title10: 'O João usou a Estratégia do Multiplicador e <span class="gold">conquistou seu imóvel</span>',
+    testimonial10: 'Eu achava que consórcio era furada e que ia demorar 10 anos. Comecei com R$1.400 por mês numa carta de R$250 mil. Com a estratégia que o consultor me passou, fui contemplado em 14 meses e comprei meu apartamento à vista — negociei 15% de desconto.',
+    avatar10: 'JM', name10: 'João M.', detail10: 'Contemplado em 14 meses',
+    proof10: 'R$320 mil', proofLabel10: 'valor do imóvel hoje — comprado por R$212 mil',
+    resultGoal: 'Estratégia pra conquistar seu imóvel'
   },
-  carro: {
+  carta: {
+    title4: 'Veja a diferença <span class="gold">real</span> num crédito de R$200 mil',
+    table4: '<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>' +
+      '<tr><td>Entrada</td><td>R$40.000</td><td>R$0</td></tr>' +
+      '<tr><td>Juros totais</td><td>~R$100.000</td><td>R$0</td></tr>' +
+      '<tr><td>Parcela</td><td>~R$2.500</td><td>~R$1.400</td></tr>' +
+      '<tr><td>Total pago</td><td>R$300.000</td><td>R$230.000</td></tr>',
+    savings4: 'R$70.000 de economia + carta revendível',
+    desc5: 'A carta de crédito é o valor que você vai utilizar como investimento:',
+    opts5: [
+      { v: 'R$100 mil a R$250 mil', icon: '💰', label: 'R$100 mil a R$250 mil', sub: 'Primeiro investimento' },
+      { v: 'R$250 mil a R$500 mil', icon: '💰', label: 'R$250 mil a R$500 mil', sub: 'Investimento intermediário' },
+      { v: 'R$500 mil a R$1 milhão', icon: '💰', label: 'R$500 mil a R$1 milhão', sub: 'Investimento robusto' },
+      { v: 'Acima de R$1 milhão', icon: '💰', label: 'Acima de R$1 milhão', sub: 'Alto patrimônio' }
+    ],
+    opts6: [
+      { v: 'Até R$1.000/mês', icon: '📊', label: 'Até R$1.000 por mês', sub: 'Cartas de R$100 mil a R$200 mil' },
+      { v: 'R$1.000 a R$2.500/mês', icon: '📊', label: 'R$1.000 a R$2.500 por mês', sub: 'Cartas de R$200 mil a R$400 mil' },
+      { v: 'R$2.500 a R$5.000/mês', icon: '📊', label: 'R$2.500 a R$5.000 por mês', sub: 'Cartas de R$400 mil a R$700 mil' },
+      { v: 'Acima de R$5.000/mês', icon: '📊', label: 'Acima de R$5.000 por mês', sub: 'Cartas acima de R$700 mil' }
+    ],
+    title10: 'O Rafael usou a Estratégia do Multiplicador pra <span class="gold">lucrar com a carta</span>',
+    testimonial10: 'Comecei com uma carta de R$150 mil pagando R$950 por mês. Com a estratégia do consultor, fui contemplado em 16 meses. Vendi a carta com ágio e lucrei o suficiente pra começar duas novas operações. Hoje tenho 3 consórcios rodando.',
+    avatar10: 'RT', name10: 'Rafael T.', detail10: 'Contemplado em 16 meses',
+    proof10: '3 cartas', proofLabel10: 'rodando ao mesmo tempo como investimento',
+    resultGoal: 'Estratégia de investimento com carta de crédito'
+  },
+  veiculo: {
     title4: 'Veja a diferença <span class="gold">real</span> num carro de R$80 mil',
-    table4: `<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>
-      <tr><td>Entrada</td><td>R$16.000</td><td>R$0</td></tr>
-      <tr><td>Juros totais</td><td>~R$28.000</td><td>R$0</td></tr>
-      <tr><td>Parcela</td><td>~R$1.800</td><td>~R$950</td></tr>
-      <tr><td>Total pago</td><td>R$108.000</td><td>R$85.000</td></tr>`,
+    table4: '<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>' +
+      '<tr><td>Entrada</td><td>R$16.000</td><td>R$0</td></tr>' +
+      '<tr><td>Juros totais</td><td>~R$28.000</td><td>R$0</td></tr>' +
+      '<tr><td>Parcela</td><td>~R$1.800</td><td>~R$950</td></tr>' +
+      '<tr><td>Total pago</td><td>R$108.000</td><td>R$85.000</td></tr>',
     savings4: 'R$23.000 de economia',
     desc5: 'A carta de crédito é o valor total pra comprar seu veículo:',
     opts5: [
@@ -828,78 +976,29 @@ const pathContent = {
       { v: 'R$100 mil a R$200 mil', icon: '🚗', label: 'R$100 mil a R$200 mil', sub: 'Carros novos e SUVs' },
       { v: 'Acima de R$200 mil', icon: '🚗', label: 'Acima de R$200 mil', sub: 'Veículos de luxo e caminhonetes' }
     ],
-    title6: 'Você paga <span class="gold">prestação de carro</span> com juros? Tem um jeito melhor.',
-    desc6a: 'Com uma carta de R$80 mil, sua parcela fica em <strong>R$950/mês</strong> — sem juros e sem entrada.',
-    desc6b: 'No financiamento, você paga <strong>R$28 mil só de juros</strong>. No consórcio, esse dinheiro fica no seu bolso.',
-    anchor6: 'R$950', anchorLabel6: 'por mês para conquistar um carro de R$80 mil',
-    opts7: [
+    opts6: [
       { v: 'Até R$500/mês', icon: '📊', label: 'Até R$500 por mês', sub: 'Cartas de R$30 mil a R$50 mil' },
       { v: 'R$500 a R$1.000/mês', icon: '📊', label: 'R$500 a R$1.000 por mês', sub: 'Cartas de R$50 mil a R$100 mil' },
       { v: 'R$1.000 a R$2.000/mês', icon: '📊', label: 'R$1.000 a R$2.000 por mês', sub: 'Cartas de R$100 mil a R$200 mil' },
       { v: 'Acima de R$2.000/mês', icon: '📊', label: 'Acima de R$2.000 por mês', sub: 'Cartas acima de R$200 mil' }
     ],
-    title9: 'A Marina tinha as <span class="gold">mesmas dúvidas</span> que você',
-    testimonial9: 'Sempre achei que pra trocar de carro tinha que financiar e pagar uma fortuna de juros. Entrei no consórcio com R$700 por mês, fui contemplada em 8 meses e comprei meu carro à vista — o vendedor ainda me deu desconto.',
-    avatar9: 'MS', name9: 'Marina S.', detail9: 'Contemplada em 8 meses',
-    proof9: 'R$15.000', proofLabel9: 'economizados comparado ao financiamento',
-    title10: 'Imagina daqui a <span class="gold">poucos meses</span>: carta contemplada, escolhendo seu carro.',
-    opts10: [
-      { v: 'Trocaria de carro', icon: '🚗', label: 'Trocaria de carro sem dor de cabeça', sub: 'Sem juros e sem entrada' },
-      { v: 'Compraria meu primeiro carro', icon: '🎯', label: 'Compraria meu primeiro carro', sub: 'Carro zero ou seminovo, à vista' },
-      { v: 'Carro pra trabalhar', icon: '💼', label: 'Teria um carro pra trabalhar', sub: 'Gerar renda com meu veículo' },
-      { v: 'Realizaria um sonho', icon: '⭐', label: 'Realizaria o sonho do carro ideal', sub: 'Já esperei tempo demais' }
-    ],
+    title10: 'A Marina usou a Estratégia do Multiplicador e <span class="gold">conquistou seu carro</span>',
+    testimonial10: 'Sempre achei que pra trocar de carro tinha que financiar e pagar juros absurdos. Entrei no consórcio com R$700 por mês e com a estratégia do consultor, fui contemplada em 8 meses. Comprei meu carro à vista — o vendedor ainda me deu desconto.',
+    avatar10: 'MS', name10: 'Marina S.', detail10: 'Contemplada em 8 meses',
+    proof10: 'R$15.000', proofLabel10: 'economizados comparado ao financiamento',
     resultGoal: 'Melhor condição pra conquistar seu veículo'
-  },
-  investimento: {
-    title4: 'Veja a diferença <span class="gold">real</span> num patrimônio de R$500 mil',
-    table4: `<tr><th></th><th>Financiamento</th><th>Consórcio</th></tr>
-      <tr><td>Entrada</td><td>R$100.000</td><td>R$0</td></tr>
-      <tr><td>Juros totais</td><td>~R$400.000</td><td>R$0</td></tr>
-      <tr><td>Parcela</td><td>~R$4.500</td><td>~R$3.200</td></tr>
-      <tr><td>Total pago</td><td>R$900.000</td><td>R$580.000</td></tr>`,
-    savings4: 'R$320.000 de economia',
-    desc5: 'A carta de crédito é o valor total pra investir no seu patrimônio:',
-    opts5: [
-      { v: 'R$200 mil a R$400 mil', icon: '📈', label: 'R$200 mil a R$400 mil', sub: 'Terrenos e imóveis compactos pra renda' },
-      { v: 'R$400 mil a R$700 mil', icon: '📈', label: 'R$400 mil a R$700 mil', sub: 'Imóveis pra aluguel e valorização' },
-      { v: 'R$700 mil a R$1 milhão', icon: '📈', label: 'R$700 mil a R$1 milhão', sub: 'Investimentos robustos' },
-      { v: 'Acima de R$1 milhão', icon: '📈', label: 'Acima de R$1 milhão', sub: 'Patrimônio de alto valor' }
-    ],
-    title6: 'Seu dinheiro tá <span class="gold">parado</span>? Patrimônio valoriza mais que poupança.',
-    desc6a: 'Com uma carta de R$500 mil, sua parcela fica em <strong>R$3.200/mês</strong> — construindo patrimônio real.',
-    desc6b: 'Enquanto a poupança rende <strong>0,5% ao mês</strong>, um imóvel bem escolhido valoriza <strong>8-15% ao ano</strong> e ainda gera renda com aluguel.',
-    anchor6: 'R$3.200', anchorLabel6: 'por mês para construir R$500 mil em patrimônio',
-    opts7: [
-      { v: 'Até R$2.000/mês', icon: '📊', label: 'Até R$2.000 por mês', sub: 'Cartas de R$200 mil a R$350 mil' },
-      { v: 'R$2.000 a R$4.000/mês', icon: '📊', label: 'R$2.000 a R$4.000 por mês', sub: 'Cartas de R$350 mil a R$600 mil' },
-      { v: 'R$4.000 a R$7.000/mês', icon: '📊', label: 'R$4.000 a R$7.000 por mês', sub: 'Cartas de R$600 mil a R$1 milhão' },
-      { v: 'Acima de R$7.000/mês', icon: '📊', label: 'Acima de R$7.000 por mês', sub: 'Cartas acima de R$1 milhão' }
-    ],
-    title9: 'O Carlos tinha as <span class="gold">mesmas dúvidas</span> que você',
-    testimonial9: 'Eu tinha dinheiro na poupança rendendo quase nada. Entrei num consórcio de R$400 mil, fui contemplado em 18 meses e comprei um apartamento pra alugar. Hoje recebo R$2.500 de aluguel — mais do que a parcela que eu pagava.',
-    avatar9: 'CR', name9: 'Carlos R.', detail9: 'Contemplado em 18 meses',
-    proof9: 'R$2.500/mês', proofLabel9: 'de renda passiva com aluguel do imóvel',
-    title10: 'Imagina daqui a <span class="gold">12 meses</span>: carta contemplada, investindo em patrimônio.',
-    opts10: [
-      { v: 'Renda passiva', icon: '💰', label: 'Teria renda passiva com aluguel', sub: 'Dinheiro entrando todo mês' },
-      { v: 'Patrimônio crescendo', icon: '📈', label: 'Meu patrimônio estaria crescendo', sub: 'Valorização real acima da inflação' },
-      { v: 'Segurança financeira', icon: '🛡️', label: 'Teria segurança financeira real', sub: 'Patrimônio sólido e tangível' },
-      { v: 'Liberdade financeira', icon: '⭐', label: 'Estaria mais perto da liberdade financeira', sub: 'Cada imóvel é um passo' }
-    ],
-    resultGoal: 'Plano de investimento em patrimônio'
   }
 };
 
 function renderOptions(containerId, screen, opts) {
   const html = opts.map(o =>
-    `<button class="option-btn" onclick="answer(${screen}, '${o.v}')">
-      <div class="option-icon">${o.icon}</div>
-      <div class="option-text">
-        <div class="option-label">${o.label}</div>
-        <div class="option-sub">${o.sub}</div>
-      </div>
-    </button>`
+    '<button class="option-btn" onclick="answer(' + screen + ', \'' + o.v.replace(/'/g, "\\'") + '\')">' +
+      '<div class="option-icon">' + o.icon + '</div>' +
+      '<div class="option-text">' +
+        '<div class="option-label">' + o.label + '</div>' +
+        '<div class="option-sub">' + o.sub + '</div>' +
+      '</div>' +
+    '</button>'
   ).join('');
   document.getElementById(containerId).innerHTML = html;
 }
@@ -915,24 +1014,15 @@ function applyPathContent(path) {
   document.getElementById('desc5').textContent = c.desc5;
   renderOptions('opts5', 5, c.opts5);
 
-  document.getElementById('title6').innerHTML = c.title6;
-  document.getElementById('desc6a').innerHTML = c.desc6a;
-  document.getElementById('desc6b').innerHTML = c.desc6b;
-  document.getElementById('anchor6').textContent = c.anchor6;
-  document.getElementById('anchorLabel6').textContent = c.anchorLabel6;
-
-  renderOptions('opts7', 7, c.opts7);
-
-  document.getElementById('title9').innerHTML = c.title9;
-  document.getElementById('testimonial9').textContent = c.testimonial9;
-  document.getElementById('avatar9').textContent = c.avatar9;
-  document.getElementById('name9').textContent = c.name9;
-  document.getElementById('detail9').textContent = c.detail9;
-  document.getElementById('proof9').textContent = c.proof9;
-  document.getElementById('proofLabel9').textContent = c.proofLabel9;
+  renderOptions('opts6', 6, c.opts6);
 
   document.getElementById('title10').innerHTML = c.title10;
-  renderOptions('opts10', 10, c.opts10);
+  document.getElementById('testimonial10').textContent = c.testimonial10;
+  document.getElementById('avatar10').textContent = c.avatar10;
+  document.getElementById('name10').textContent = c.name10;
+  document.getElementById('detail10').textContent = c.detail10;
+  document.getElementById('proof10').textContent = c.proof10;
+  document.getElementById('proofLabel10').textContent = c.proofLabel10;
 }
 
 function choosePath(path, label) {
@@ -950,16 +1040,16 @@ function choosePath(path, label) {
 
   applyPathContent(path);
 
-  setTimeout(() => goTo(4), 300);
+  setTimeout(function() { goTo(4); }, 300);
 }
 
 // ===== TRACKING =====
 function trackEvent(type, step) {
-  const path = quizPath || 'geral';
+  var path = quizPath || 'geral';
 
   try {
-    const events = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    events.push({ ts: Date.now(), sid: sessionId, type, step: step || 0, path });
+    var events = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    events.push({ ts: Date.now(), sid: sessionId, type: type, step: step || 0, path: path });
     if (events.length > 5000) events.splice(0, events.length - 5000);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
   } catch(e) {}
@@ -968,20 +1058,20 @@ function trackEvent(type, step) {
     fetch('https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-stats', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, step: step || 0, path, sid: sessionId, ts: Date.now() })
-    }).catch(() => {});
+      body: JSON.stringify({ type: type, step: step || 0, path: path, sid: sessionId, ts: Date.now() })
+    }).catch(function() {});
   } catch(e) {}
 }
 
 const screenNames = {
-  1: 'interesse_inicial', 2: 'educacao_consorcio', 3: 'objetivo',
-  4: 'comparacao', 5: 'valor_carta', 6: 'ancoragem',
-  7: 'valor_parcela', 8: 'objecao', 9: 'prova_social',
-  10: 'motivacao', 11: 'urgencia', 12: 'dados_contato', 13: 'obrigado'
+  1: 'hook_contemplacao', 2: 'educacao_consorcio', 3: 'objetivo',
+  4: 'comparacao', 5: 'valor_carta', 6: 'valor_parcela',
+  7: 'objecao', 8: 'ancora_prazo', 9: 'multiplicador',
+  10: 'prova_social', 11: 'urgencia', 12: 'dados_contato', 13: 'obrigado'
 };
 
 function goTo(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById('screen' + n).classList.add('active');
 
   if (n <= totalScreens) {
@@ -1009,26 +1099,26 @@ function goTo(n) {
 function answer(screen, value) {
   answers['q' + screen] = value;
 
-  const btns = document.querySelectorAll('#screen' + screen + ' .option-btn');
-  btns.forEach(b => b.classList.remove('selected'));
+  var btns = document.querySelectorAll('#screen' + screen + ' .option-btn');
+  btns.forEach(function(b) { b.classList.remove('selected'); });
   event.currentTarget.classList.add('selected');
 
-  setTimeout(() => {
+  setTimeout(function() {
     if (screen === 11) personalizeResult();
     goTo(screen + 1);
   }, 300);
 }
 
 function personalizeResult() {
-  const c = pathContent[quizPath];
+  var c = pathContent[quizPath];
   if (c) document.getElementById('resultGoal').textContent = c.resultGoal;
-  const card = answers.q5;
-  const cardEl = document.getElementById('resultCard');
+  var card = answers.q5;
+  var cardEl = document.getElementById('resultCard');
   if (card) cardEl.textContent = 'Carta de ' + card + ' com parcela sob medida';
 }
 
 function formatPhone(input) {
-  let v = input.value.replace(/\D/g, '');
+  var v = input.value.replace(/\D/g, '');
   if (v.length > 11) v = v.slice(0, 11);
   if (v.length > 7) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
   else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
@@ -1038,29 +1128,30 @@ function formatPhone(input) {
 document.getElementById('inputPhone').addEventListener('input', function() { formatPhone(this); });
 
 async function submitQuiz() {
-  const name = document.getElementById('inputName').value.trim();
-  const phone = document.getElementById('inputPhone').value.trim();
+  var name = document.getElementById('inputName').value.trim();
+  var phone = document.getElementById('inputPhone').value.trim();
 
   if (!name) { document.getElementById('inputName').focus(); return; }
   if (phone.replace(/\D/g, '').length < 10) { document.getElementById('inputPhone').focus(); return; }
 
-  const btn = document.getElementById('submitBtn');
+  var btn = document.getElementById('submitBtn');
   btn.textContent = 'Enviando...';
   btn.style.opacity = '0.7';
   btn.style.pointerEvents = 'none';
 
-  const payload = {
+  var payload = {
     nome: name,
     telefone: phone.replace(/\D/g, ''),
     telefone_formatado: phone,
     path: quizPath,
-    mensagem_agente: `Olá! Meu nome é ${name}. Fiz o quiz (${quizPath}). Objetivo: ${answers.q3 || '-'}. Carta: ${answers.q5 || '-'}. Parcela: ${answers.q7 || '-'}. Urgência: ${answers.q11 || '-'}.`,
+    mensagem_agente: 'Olá! Meu nome é ' + name + '. Fiz o quiz (' + quizPath + '). Objetivo: ' + (answers.q3 || '-') + '. Carta: ' + (answers.q5 || '-') + '. Parcela: ' + (answers.q6 || '-') + '. Urgência: ' + (answers.q11 || '-') + '.',
     respostas: {
+      tempo_contemplacao: answers.q1 || '',
       objetivo: answers.q3 || '',
       valor_carta: answers.q5 || '',
-      valor_parcela: answers.q7 || '',
-      objecao: answers.q8 || '',
-      motivacao: answers.q10 || '',
+      valor_parcela: answers.q6 || '',
+      objecao: answers.q7 || '',
+      ancora: answers.q8 || '',
       urgencia: answers.q11 || ''
     },
     origem: 'quiz-consorcio',
@@ -1095,9 +1186,9 @@ trackEvent('step', 1);
 
 // Popup ao sair
 window.addEventListener('beforeunload', function(e) {
-  const currentScreen = document.querySelector('.screen.active');
+  var currentScreen = document.querySelector('.screen.active');
   if (currentScreen) {
-    const screenId = parseInt(currentScreen.id.replace('screen', ''));
+    var screenId = parseInt(currentScreen.id.replace('screen', ''));
     if (screenId >= 1 && screenId <= 12) {
       e.preventDefault();
       trackEvent('abandon', screenId);

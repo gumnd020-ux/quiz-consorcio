@@ -64,9 +64,9 @@
   .status-err { color: #ff6b6b; font-weight: 600; }
   .leads-count { font-size: 12px; color: #555; margin-left: 8px; font-weight: 400; }
   .path-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
-  .path-casa { background: rgba(74,222,128,0.15); color: #4ade80; }
-  .path-carro { background: rgba(96,165,250,0.15); color: #60a5fa; }
-  .path-investimento { background: rgba(201,168,76,0.15); color: #C9A84C; }
+  .path-imovel { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .path-carta { background: rgba(201,168,76,0.15); color: #C9A84C; }
+  .path-veiculo { background: rgba(96,165,250,0.15); color: #60a5fa; }
 </style>
 </head>
 <body>
@@ -83,9 +83,9 @@
   </div>
 
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('casa')" id="tab-casa"><span class="tab-icon">🏠</span>Casa</div>
-    <div class="tab" onclick="switchTab('carro')" id="tab-carro"><span class="tab-icon">🚗</span>Carro</div>
-    <div class="tab" onclick="switchTab('investimento')" id="tab-investimento"><span class="tab-icon">📈</span>Investimento</div>
+    <div class="tab active" onclick="switchTab('imovel')" id="tab-imovel"><span class="tab-icon">🏠</span>Imóvel</div>
+    <div class="tab" onclick="switchTab('carta')" id="tab-carta"><span class="tab-icon">💰</span>Carta</div>
+    <div class="tab" onclick="switchTab('veiculo')" id="tab-veiculo"><span class="tab-icon">🚗</span>Veículo</div>
   </div>
 
   <div class="cards">
@@ -117,7 +117,7 @@
 <script>
 const API = 'https://modernlookingbettafish-n8n.cloudfy.live/webhook/quiz-dashboard';
 let dashboardData = null;
-let currentTab = 'casa';
+let currentTab = 'imovel';
 
 const barColors = [
   '#4ade80', '#3ecf72', '#38c466', '#2eb85a',
